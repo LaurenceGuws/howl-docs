@@ -1,0 +1,843 @@
+{
+  "version": 1,
+  "projectId": "howl-docs",
+  "documents": [
+    {
+      "path": "README.md",
+      "title": "Howl Docs",
+      "headings": [
+        "Howl Docs"
+      ],
+      "text": "Howl Docs Local browser-based documentation explorer for Howl projects. Standalone repo: - <https://github.com/howl-editor/howl-docs Integration contract: - app architecture/docs browser/CONSUMER CONTRACT.md Current entrypoints: - howl docs.py: lightweight local HTTP launcher - index.html: HTML shell - design/: focused explorer design docs for non-trivial widget/system seams - styles/base.css: stylesheet import root - app architecture/: architecture and subsystem design docs - ts/: TypeScript source modules - docs/: document routing/rendering/view state - search/: spotlight-style static search - tree/: tree rendering and tree state - theme/: theme/runtime palette wiring - shell/: app-shell bootstrap, DOM lookup, and icon wiring - shared/: shared types/helpers/vendor declarations - build/js/: generated browser ESM output - app architecture/docs browser/project.howl-docs.json: local project manifest - app architecture/docs browser/project.howl-docs.pages.json: hosted/pages manifest - app architecture/docs browser/docs-index.howl-docs.json: repo docs index - docs/: workflow, handoff, review, and todo docs Run locally: cd \"$(git rev-parse --show-toplevel)\" npm install npm run build python3 howl docs.py Then open the printed URL. Alternate config: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8000 project.pages.json External project: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8010 ../other-project/docs browser/project.other.json The launcher prints a project-scoped URL: http://127.0.0.1:8010/?project=other Project ids are the browser-facing selection contract. Config file mount paths are launcher internals and should not be treated as the primary URL model. Multiple external projects: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8010 \\ ../project-a/docs browser/project.a.json \\ ../project-b/docs browser/project.b.json \\ ../project-c/docs browser/project.c.json That exposes one local docs instance with a project registry. The browser can switch projects through stable project ids like ?project=a or ?project=c. The launcher can mount an external config directory for local development. That lets consuming repos keep their own project manifest and docs index files without copying them into this repo. Structure is intentionally small and framework-free so the tool can be reused across other Howl projects and modules by swapping project config and doc-index JSON. Current shell rule: - the outer shell owns the atmospheric background field - panes own the main material layers - small wrappers and controls should prefer transparency, border, and hover state before adding their own local fill - theme/config should drive the surface system through tokens rather than scattered component-specific color formulas Theme rule: - project config may override the base palette only - derived shell/control/viewer materials stay in styles/theme.css - if a visual change can be expressed by changing a derived token, prefer that over adding a new component-local background - the current config surface is intentionally capped there; do not expand it into per-component styling knobs without a strong reuse reason Notes: - ts/ is the source tree. - build/js/ is generated output and is intentionally not checked in. - The mapping is direct: files under ts/ compile to browser ESM under build/js/, preserving the same subtree layout. - The launcher expects build/js/main.js to exist and will tell you to run the build step if it is missing. - main stays source-only for this tool. - If GitHub Pages is published for a release, built explorer assets may be committed on the release branch as part of the release ritual instead of on main. - Release-branch Pages publication should keep .nojekyll at the repo root so GitHub serves the static explorer directly. - For design-heavy internal cleanup, use app architecture/ui/README.md for focused documentation of widget and system seams. - Current repo workflow docs live under docs/INDEX.md. - The sidebar input remains a tree/path filter only. - Search is a separate spotlight-style full-text surface backed by generated static search indexes. - Project-local search works the same in local-dev and hosted mode when the selected project ships its search artifact.",
+      "sections": [
+        {
+          "id": "howl-docs",
+          "heading": "Howl Docs",
+          "text": "Local browser-based documentation explorer for Howl projects. Standalone repo: - <https://github.com/howl-editor/howl-docs Integration contract: - app architecture/docs browser/CONSUMER CONTRACT.md Current entrypoints: - howl docs.py: lightweight local HTTP launcher - index.html: HTML shell - design/: focused explorer design docs for non-trivial widget/system seams - styles/base.css: stylesheet import root - app architecture/: architecture and subsystem design docs - ts/: TypeScript source modules - docs/: document routing/rendering/view state - search/: spotlight-style static search - tree/: tree rendering and tree state - theme/: theme/runtime palette wiring - shell/: app-shell bootstrap, DOM lookup, and icon wiring - shared/: shared types/helpers/vendor declarations - build/js/: generated browser ESM output - app architecture/docs browser/project.howl-docs.json: local project manifest - app architecture/docs browser/project.howl-docs.pages.json: hosted/pages manifest - app architecture/docs browser/docs-index.howl-docs.json: repo docs index - docs/: workflow, handoff, review, and todo docs Run locally: cd \"$(git rev-parse --show-toplevel)\" npm install npm run build python3 howl docs.py Then open the printed URL. Alternate config: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8000 project.pages.json External project: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8010 ../other-project/docs browser/project.other.json The launcher prints a project-scoped URL: http://127.0.0.1:8010/?project=other Project ids are the browser-facing selection contract. Config file mount paths are launcher internals and should not be treated as the primary URL model. Multiple external projects: cd \"$(git rev-parse --show-toplevel)\" python3 howl docs.py 8010 \\ ../project-a/docs browser/project.a.json \\ ../project-b/docs browser/project.b.json \\ ../project-c/docs browser/project.c.json That exposes one local docs instance with a project registry. The browser can switch projects through stable project ids like ?project=a or ?project=c. The launcher can mount an external config directory for local development. That lets consuming repos keep their own project manifest and docs index files without copying them into this repo. Structure is intentionally small and framework-free so the tool can be reused across other Howl projects and modules by swapping project config and doc-index JSON. Current shell rule: - the outer shell owns the atmospheric background field - panes own the main material layers - small wrappers and controls should prefer transparency, border, and hover state before adding their own local fill - theme/config should drive the surface system through tokens rather than scattered component-specific color formulas Theme rule: - project config may override the base palette only - derived shell/control/viewer materials stay in styles/theme.css - if a visual change can be expressed by changing a derived token, prefer that over adding a new component-local background - the current config surface is intentionally capped there; do not expand it into per-component styling knobs without a strong reuse reason Notes: - ts/ is the source tree. - build/js/ is generated output and is intentionally not checked in. - The mapping is direct: files under ts/ compile to browser ESM under build/js/, preserving the same subtree layout. - The launcher expects build/js/main.js to exist and will tell you to run the build step if it is missing. - main stays source-only for this tool. - If GitHub Pages is published for a release, built explorer assets may be committed on the release branch as part of the release ritual instead of on main. - Release-branch Pages publication should keep .nojekyll at the repo root so GitHub serves the static explorer directly. - For design-heavy internal cleanup, use app architecture/ui/README.md for focused documentation of widget and system seams. - Current repo workflow docs live under docs/INDEX.md. - The sidebar input remains a tree/path filter only. - Search is a separate spotlight-style full-text surface backed by generated static search indexes. - Project-local search works the same in local-dev and hosted mode when the selected project ships its search artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/AGENT_HANDOFF.md",
+      "title": "Howl Docs Handoff",
+      "headings": [
+        "Howl Docs Handoff",
+        "Current State",
+        "Current Focus",
+        "Ownership Direction",
+        "Python",
+        "JavaScript",
+        "Immediate Next Work",
+        "Constraints"
+      ],
+      "text": "Howl Docs Handoff Current State - Howl Docs is a small reusable static app for Howl project documentation. - It has been split into: - index.html shell - styles/base.css - ts/ modules - app architecture/docs browser/project.howl-docs.json - app architecture/docs browser/docs-index.howl-docs.json - howl docs.py local launcher - Runtime extraction has started: - js/app.js - js/app shell.js - js/doc controller.js - js/config.js - js/state.js - js/tree state.js - js/view state.js - js/viewer state.js - js/layout.js - js/options menu.js - js/project theme.js - TypeScript migration has started from the stable center. - Current build path: - npm run build - output goes to build/js/ - The UI now supports: - dark/light theme toggle - Markdown rendering - Mermaid rendering - collapsible tree navigation - resizable sidebar groundwork - options popover Current Focus - Refactor large files into tighter, more focused modules. - Establish a solid state-handling base before adding more features. - Make Python-vs-JS ownership explicit so the tool does not drift. - Keep project identity config-driven where that improves reuse across repos. Ownership Direction Python Python should stay minimal and boring. Own only: - local static-file serving - optional offline/local generation tasks - optional index/config generation scripts Do not let Python become: - runtime app state owner - renderer/controller logic - UI composition layer JavaScript JavaScript should own the browser app runtime. Own: - UI state - navigation state - theme state - sidebar/layout state - Markdown/Mermaid orchestration - user interactions Immediate Next Work 1. Refactor any remaining large UI/runtime files into focused modules. 2. Introduce an explicit app-state model for: - current doc - theme - sidebar width - sidebar collapsed state - options menu open/closed state - search query 3. Keep config loading and app runtime separate. 4. Decide whether doc-index generation remains manual JSON or becomes a small build/refresh utility. 5. Keep TypeScript discussion sequenced after the file-split/state-boundary work, not before it. - When the time is right, move straight to TypeScript. - Do not spend effort on a longer-term checkJs path. 6. Be deliberate about config scope: - title/icon/default doc/palette are good config candidates - avoid turning config into an unstructured CSS dump Constraints - Keep all docs for this tool inside this repo. - Do not update main repo docs for tool-internal iteration unless explicitly requested. - Prefer simple static-app architecture over framework adoption. - Reusability across repos matters, so keep project config separate from app logic.",
+      "sections": [
+        {
+          "id": "howl-docs-handoff",
+          "heading": "Howl Docs Handoff",
+          "text": ""
+        },
+        {
+          "id": "current-state",
+          "heading": "Current State",
+          "text": "- Howl Docs is a small reusable static app for Howl project documentation. - It has been split into: - index.html shell - styles/base.css - ts/ modules - app architecture/docs browser/project.howl-docs.json - app architecture/docs browser/docs-index.howl-docs.json - howl docs.py local launcher - Runtime extraction has started: - js/app.js - js/app shell.js - js/doc controller.js - js/config.js - js/state.js - js/tree state.js - js/view state.js - js/viewer state.js - js/layout.js - js/options menu.js - js/project theme.js - TypeScript migration has started from the stable center. - Current build path: - npm run build - output goes to build/js/ - The UI now supports: - dark/light theme toggle - Markdown rendering - Mermaid rendering - collapsible tree navigation - resizable sidebar groundwork - options popover"
+        },
+        {
+          "id": "current-focus",
+          "heading": "Current Focus",
+          "text": "- Refactor large files into tighter, more focused modules. - Establish a solid state-handling base before adding more features. - Make Python-vs-JS ownership explicit so the tool does not drift. - Keep project identity config-driven where that improves reuse across repos."
+        },
+        {
+          "id": "ownership-direction",
+          "heading": "Ownership Direction",
+          "text": ""
+        },
+        {
+          "id": "python",
+          "heading": "Python",
+          "text": "Python should stay minimal and boring. Own only: - local static-file serving - optional offline/local generation tasks - optional index/config generation scripts Do not let Python become: - runtime app state owner - renderer/controller logic - UI composition layer"
+        },
+        {
+          "id": "javascript",
+          "heading": "JavaScript",
+          "text": "JavaScript should own the browser app runtime. Own: - UI state - navigation state - theme state - sidebar/layout state - Markdown/Mermaid orchestration - user interactions"
+        },
+        {
+          "id": "immediate-next-work",
+          "heading": "Immediate Next Work",
+          "text": "1. Refactor any remaining large UI/runtime files into focused modules. 2. Introduce an explicit app-state model for: - current doc - theme - sidebar width - sidebar collapsed state - options menu open/closed state - search query 3. Keep config loading and app runtime separate. 4. Decide whether doc-index generation remains manual JSON or becomes a small build/refresh utility. 5. Keep TypeScript discussion sequenced after the file-split/state-boundary work, not before it. - When the time is right, move straight to TypeScript. - Do not spend effort on a longer-term checkJs path. 6. Be deliberate about config scope: - title/icon/default doc/palette are good config candidates - avoid turning config into an unstructured CSS dump"
+        },
+        {
+          "id": "constraints",
+          "heading": "Constraints",
+          "text": "- Keep all docs for this tool inside this repo. - Do not update main repo docs for tool-internal iteration unless explicitly requested. - Prefer simple static-app architecture over framework adoption. - Reusability across repos matters, so keep project config separate from app logic."
+        }
+      ]
+    },
+    {
+      "path": "docs/INDEX.md",
+      "title": "Docs Index",
+      "headings": [
+        "Docs Index"
+      ],
+      "text": "Docs Index This folder is the repo-level documentation surface. Current sections: - AGENT HANDOFF.md: current repo handoff/context note - WORKFLOW.md: cleanup workflow and execution rules - hygiene/README.md: current hygiene area - hygiene/TESTING STRATEGY.md: current testing authority - review/FOUNDATION REVIEW 2026-04-02.md: current foundation review - todo/README.md: active cleanup todo Architecture/design-specific docs live under: - ../app architecture/README.md - ../app architecture/CONVENTIONS.md - ../app architecture/docs browser/CONSUMER CONTRACT.md - ../app architecture/ui/README.md",
+      "sections": [
+        {
+          "id": "docs-index",
+          "heading": "Docs Index",
+          "text": "This folder is the repo-level documentation surface. Current sections: - AGENT HANDOFF.md: current repo handoff/context note - WORKFLOW.md: cleanup workflow and execution rules - hygiene/README.md: current hygiene area - hygiene/TESTING STRATEGY.md: current testing authority - review/FOUNDATION REVIEW 2026-04-02.md: current foundation review - todo/README.md: active cleanup todo Architecture/design-specific docs live under: - ../app architecture/README.md - ../app architecture/CONVENTIONS.md - ../app architecture/docs browser/CONSUMER CONTRACT.md - ../app architecture/ui/README.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/WORKFLOW.md",
+      "title": "Workflow",
+      "headings": [
+        "Workflow"
+      ],
+      "text": "Workflow Current operating mode: - foundation cleanup completed - product planning before expansion - determinism before convenience - explicit ownership before flexibility Current execution flow: 1. review in docs/review/ 2. active cleanup tracking in docs/hygiene/ and docs/todo/ 3. architecture/design authority in app architecture/ Short rule: - if work changes runtime contracts, update app architecture/ - if work changes cleanup priority, update docs/hygiene/ or docs/todo/ - if work is a major scrutiny pass, write it under docs/review/ - if work introduces or changes testing rules, update docs/hygiene/TESTING STRATEGY.md - if work introduces or clarifies a repo convention, update app architecture/CONVENTIONS.md",
+      "sections": [
+        {
+          "id": "workflow",
+          "heading": "Workflow",
+          "text": "Current operating mode: - foundation cleanup completed - product planning before expansion - determinism before convenience - explicit ownership before flexibility Current execution flow: 1. review in docs/review/ 2. active cleanup tracking in docs/hygiene/ and docs/todo/ 3. architecture/design authority in app architecture/ Short rule: - if work changes runtime contracts, update app architecture/ - if work changes cleanup priority, update docs/hygiene/ or docs/todo/ - if work is a major scrutiny pass, write it under docs/review/ - if work introduces or changes testing rules, update docs/hygiene/TESTING STRATEGY.md - if work introduces or clarifies a repo convention, update app architecture/CONVENTIONS.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/todo/README.md",
+      "title": "Howl Docs Todo",
+      "headings": [
+        "Howl Docs Todo",
+        "Current Priority",
+        "Tree widget cleanup",
+        "Full-text search",
+        "Theme and shell cleanup",
+        "State foundation",
+        "Module refactor",
+        "Config-driven identity",
+        "Python vs JS ownership",
+        "Nice To Have",
+        "Deliberately Deferred"
+      ],
+      "text": "Howl Docs Todo Current Priority Tree widget cleanup - [ ] Keep the tree widget simple and intuitive before pursuing richer custom geometry. - Current direction: - the panel has been simplified back toward a conventional nested navigation list - custom connector-heavy geometry has been deliberately scaled back - Remaining work: - refine the active/focus path treatment - verify the simpler panel reads well across real project corpora - Authority: - ../../app architecture/ui/TREE WIDGET.md Full-text search - [x] Add a separate ripgrep-backed header search instead of overloading the sidebar tree filter. - Sidebar input remains path/tree filtering only. - Header search now streams local rg hits into a modal result list. - [ ] Polish search-hit navigation so focusing a result in the rendered viewer is more exact than first-match term highlighting. - [ ] Decide what the hosted/pages story should be for full-text search. - Current behavior is local-dev only via howl docs.py. Theme and shell cleanup - [ ] Keep the shell theme system token-driven instead of letting component CSS grow local one-off surfaces. - Outer shell/header/pane/control/viewer materials now derive much more cleanly from theme.css. - Remaining work: continue removing component-local background formulas when a named theme token would be clearer. - [ ] Audit and standardize stateful visual semantics. - Repeated active/selected/highlight visuals should become semantic theme tokens before they spread across component CSS. - Use app architecture/CONVENTIONS.md as authority. - [ ] Audit dark/light drift through theme tokens first and component rules second. - [x] Keep project config limited to base palette overrides. - Derived shell/control/viewer materials remain CSS-owned. - Do not expand config into per-component styling knobs by default. - [ ] Keep the app header intentionally small and shell-level. - Avoid turning it back into a document breadcrumb/navigation bar. State foundation - [ ] Introduce a dedicated app-state module instead of storing behavior across main.js, DOM attributes, and localStorage calls. - ts/state.ts now owns the first persistence/default seams. - Remaining work: options/search/current-doc state transitions still need a cleaner shared model and less direct DOM orchestration. - [ ] Define a clear state shape for: - current doc - theme - sidebar width - sidebar collapsed state - options menu state - search query - document header/load state - tree filter/active state - viewer body render state - [ ] Centralize persistence reads/writes behind a small state/persistence seam. - [ ] Keep typing work sequenced after the module/state split. - First stabilize module boundaries and state ownership. - Then keep TypeScript aligned to those stable seams. - Avoid using types to justify muddled ownership. Module refactor - [ ] Split the old main.js monolith into concern-owned modules. - app bootstrap - layout/sidebar controls - options/menu controls - state/config wiring - Current extraction landed: - ts/app.ts - ts/shell/app shell.ts - ts/docs/doc controller.ts - ts/docs/doc routing.ts - ts/docs/doc render cycle.ts - ts/config.ts - ts/state.ts - ts/tree/tree state.ts - ts/docs/view state.ts - ts/docs/viewer state.ts - ts/layout.ts - ts/options menu.ts - Remaining work: - keep ts/docs/doc controller.ts as assembly only - continue shrinking cross-module DOM assumptions - [ ] Standardize markup injection ownership. - The repo currently uses several HTML/SVG injection patterns. - Define when string markup, template parsing, and direct SVG injection are acceptable instead of letting each subsystem invent its own rule. - [ ] Standardize event-listener ownership. - Long-lived feature installs should follow one disposer-based rule. - Global listeners should remain controller-owned. - [x] Rename the source tree from js/ to ts/ and group modules by concern. - docs/, tree/, theme/, shell/, and shared/ now own the main source seams. - [x] Split tree and shell internals so concern folders are structural, not cosmetic. - ts/tree/ now separates model, markup, state, and DOM orchestration. - ts/shell/ now separates DOM lookup, icon injection, and shell boot. Config-driven identity - [ ] Move project identity into config instead of code/CSS edits. - Title/icon/default doc already live in app architecture/docs browser/project.howl-docs.json. - Brand-level light/dark palette overrides now live there too. - More shell/control/viewer surface behavior now derives from those base palette tokens. - Repo fetch base path now lives there too. - Remaining work: decide how far config should go beyond palette/base tokens without turning the tool into a per-project styling DSL. - Remove the generic ide wordmark fallback from multi-project headers. - Define a neutral shared fallback for projects that do not yet have a strong icon/branding asset instead of synthesizing sloppy branding in runtime code. - [x] Split styles/base.css by concern. - base.css is now the import root. - theme.css, shell.css, tree.css, controls.css, viewer.css, and responsive.css now own the main style seams. Python vs JS ownership - [ ] Keep howl docs.py minimal and document the rule that Python is only for serving and optional generation tasks. - [ ] If doc-index generation is automated, add a separate generation script rather than bloating the launcher. Nice To Have - [ ] Keyboard escape to close options menu. - [ ] Persist expanded tree folders. - [ ] Better iconography for controls. - [ ] Auto-generate app architecture/docs browser/docs-index.howl-docs.json. - [x] Add support for multiple project configs. - [ ] Add a short local style-guide note for shell materials so future UI work does not reintroduce per-widget background drift. Deliberately Deferred - [ ] Framework migration. - [ ] Search indexing beyond simple path filtering. - [ ] Rich YAML-specific rendering.",
+      "sections": [
+        {
+          "id": "howl-docs-todo",
+          "heading": "Howl Docs Todo",
+          "text": ""
+        },
+        {
+          "id": "current-priority",
+          "heading": "Current Priority",
+          "text": ""
+        },
+        {
+          "id": "tree-widget-cleanup",
+          "heading": "Tree widget cleanup",
+          "text": "- [ ] Keep the tree widget simple and intuitive before pursuing richer custom geometry. - Current direction: - the panel has been simplified back toward a conventional nested navigation list - custom connector-heavy geometry has been deliberately scaled back - Remaining work: - refine the active/focus path treatment - verify the simpler panel reads well across real project corpora - Authority: - ../../app architecture/ui/TREE WIDGET.md"
+        },
+        {
+          "id": "full-text-search",
+          "heading": "Full-text search",
+          "text": "- [x] Add a separate ripgrep-backed header search instead of overloading the sidebar tree filter. - Sidebar input remains path/tree filtering only. - Header search now streams local rg hits into a modal result list. - [ ] Polish search-hit navigation so focusing a result in the rendered viewer is more exact than first-match term highlighting. - [ ] Decide what the hosted/pages story should be for full-text search. - Current behavior is local-dev only via howl docs.py."
+        },
+        {
+          "id": "theme-and-shell-cleanup",
+          "heading": "Theme and shell cleanup",
+          "text": "- [ ] Keep the shell theme system token-driven instead of letting component CSS grow local one-off surfaces. - Outer shell/header/pane/control/viewer materials now derive much more cleanly from theme.css. - Remaining work: continue removing component-local background formulas when a named theme token would be clearer. - [ ] Audit and standardize stateful visual semantics. - Repeated active/selected/highlight visuals should become semantic theme tokens before they spread across component CSS. - Use app architecture/CONVENTIONS.md as authority. - [ ] Audit dark/light drift through theme tokens first and component rules second. - [x] Keep project config limited to base palette overrides. - Derived shell/control/viewer materials remain CSS-owned. - Do not expand config into per-component styling knobs by default. - [ ] Keep the app header intentionally small and shell-level. - Avoid turning it back into a document breadcrumb/navigation bar."
+        },
+        {
+          "id": "state-foundation",
+          "heading": "State foundation",
+          "text": "- [ ] Introduce a dedicated app-state module instead of storing behavior across main.js, DOM attributes, and localStorage calls. - ts/state.ts now owns the first persistence/default seams. - Remaining work: options/search/current-doc state transitions still need a cleaner shared model and less direct DOM orchestration. - [ ] Define a clear state shape for: - current doc - theme - sidebar width - sidebar collapsed state - options menu state - search query - document header/load state - tree filter/active state - viewer body render state - [ ] Centralize persistence reads/writes behind a small state/persistence seam. - [ ] Keep typing work sequenced after the module/state split. - First stabilize module boundaries and state ownership. - Then keep TypeScript aligned to those stable seams. - Avoid using types to justify muddled ownership."
+        },
+        {
+          "id": "module-refactor",
+          "heading": "Module refactor",
+          "text": "- [ ] Split the old main.js monolith into concern-owned modules. - app bootstrap - layout/sidebar controls - options/menu controls - state/config wiring - Current extraction landed: - ts/app.ts - ts/shell/app shell.ts - ts/docs/doc controller.ts - ts/docs/doc routing.ts - ts/docs/doc render cycle.ts - ts/config.ts - ts/state.ts - ts/tree/tree state.ts - ts/docs/view state.ts - ts/docs/viewer state.ts - ts/layout.ts - ts/options menu.ts - Remaining work: - keep ts/docs/doc controller.ts as assembly only - continue shrinking cross-module DOM assumptions - [ ] Standardize markup injection ownership. - The repo currently uses several HTML/SVG injection patterns. - Define when string markup, template parsing, and direct SVG injection are acceptable instead of letting each subsystem invent its own rule. - [ ] Standardize event-listener ownership. - Long-lived feature installs should follow one disposer-based rule. - Global listeners should remain controller-owned. - [x] Rename the source tree from js/ to ts/ and group modules by concern. - docs/, tree/, theme/, shell/, and shared/ now own the main source seams. - [x] Split tree and shell internals so concern folders are structural, not cosmetic. - ts/tree/ now separates model, markup, state, and DOM orchestration. - ts/shell/ now separates DOM lookup, icon injection, and shell boot."
+        },
+        {
+          "id": "config-driven-identity",
+          "heading": "Config-driven identity",
+          "text": "- [ ] Move project identity into config instead of code/CSS edits. - Title/icon/default doc already live in app architecture/docs browser/project.howl-docs.json. - Brand-level light/dark palette overrides now live there too. - More shell/control/viewer surface behavior now derives from those base palette tokens. - Repo fetch base path now lives there too. - Remaining work: decide how far config should go beyond palette/base tokens without turning the tool into a per-project styling DSL. - Remove the generic ide wordmark fallback from multi-project headers. - Define a neutral shared fallback for projects that do not yet have a strong icon/branding asset instead of synthesizing sloppy branding in runtime code. - [x] Split styles/base.css by concern. - base.css is now the import root. - theme.css, shell.css, tree.css, controls.css, viewer.css, and responsive.css now own the main style seams."
+        },
+        {
+          "id": "python-vs-js-ownership",
+          "heading": "Python vs JS ownership",
+          "text": "- [ ] Keep howl docs.py minimal and document the rule that Python is only for serving and optional generation tasks. - [ ] If doc-index generation is automated, add a separate generation script rather than bloating the launcher."
+        },
+        {
+          "id": "nice-to-have",
+          "heading": "Nice To Have",
+          "text": "- [ ] Keyboard escape to close options menu. - [ ] Persist expanded tree folders. - [ ] Better iconography for controls. - [ ] Auto-generate app architecture/docs browser/docs-index.howl-docs.json. - [x] Add support for multiple project configs. - [ ] Add a short local style-guide note for shell materials so future UI work does not reintroduce per-widget background drift."
+        },
+        {
+          "id": "deliberately-deferred",
+          "heading": "Deliberately Deferred",
+          "text": "- [ ] Framework migration. - [ ] Search indexing beyond simple path filtering. - [ ] Rich YAML-specific rendering."
+        }
+      ]
+    },
+    {
+      "path": "docs/hygiene/README.md",
+      "title": "Hygiene",
+      "headings": [
+        "Hygiene"
+      ],
+      "text": "Hygiene This folder is the current execution area for repository cleanup work. Purpose: - reduce architectural drift - remove non-deterministic behavior - tighten ownership and runtime contracts - prepare the repo for a broader docs restructure later Current authority: - foundation review: - docs/review/FOUNDATION REVIEW 2026-04-02.md - current execution todo: - docs/hygiene/FOUNDATION TODO.md - testing strategy: - docs/hygiene/TESTING STRATEGY.md Short rule: - cleanup before expansion - determinism before convenience - one clear path before compatibility layers",
+      "sections": [
+        {
+          "id": "hygiene",
+          "heading": "Hygiene",
+          "text": "This folder is the current execution area for repository cleanup work. Purpose: - reduce architectural drift - remove non-deterministic behavior - tighten ownership and runtime contracts - prepare the repo for a broader docs restructure later Current authority: - foundation review: - docs/review/FOUNDATION REVIEW 2026-04-02.md - current execution todo: - docs/hygiene/FOUNDATION TODO.md - testing strategy: - docs/hygiene/TESTING STRATEGY.md Short rule: - cleanup before expansion - determinism before convenience - one clear path before compatibility layers"
+        }
+      ]
+    },
+    {
+      "path": "docs/hygiene/TESTING_STRATEGY.md",
+      "title": "Testing Strategy",
+      "headings": [
+        "Testing Strategy",
+        "Goal",
+        "Rules",
+        "Test Layers",
+        "1. Logic regression tests",
+        "2. Correctness regression tests",
+        "3. Performance regression tests",
+        "4. Convention regression tests",
+        "Current Harness Direction",
+        "Immediate Priorities",
+        "Known Convention Risk Already Identified"
+      ],
+      "text": "Testing Strategy Status: - active foundation strategy - applies to all new test work Goal Make the repo's testing model: - explicit - automatable - strict enough to catch regressions before product drift reaches runtime This repo should not accumulate four different testing styles for four different features. Rules - All tests must run headless. - All tests must be automatable from repo scripts. - A new feature should extend the existing harness, not introduce a parallel test system without a strong reason. - Logic, correctness, performance, and convention checks are all first-class regressions. - If a rule matters to architecture or design-system integrity, encode it in a test or a documented budget, not only in chat memory. - Convention authority lives in app architecture/CONVENTIONS.md. Test Layers 1. Logic regression tests Purpose: - catch broken branching, state transitions, and scoring logic Examples: - search ranking fixtures - query parsing behavior - project selection transition rules - document loading state transitions Rule: - prefer small deterministic fixture inputs - assert exact outputs where practical 2. Correctness regression tests Purpose: - catch contract breakage between generated artifacts and runtime behavior Examples: - generated search index shape - manifest/runtime compatibility - required docs-browser paths existing - project registry contract checks - static search recall against the indexed corpus Rule: - test the actual shipped contract, not a second mock implementation 3. Performance regression tests Purpose: - catch silent slowdowns in the paths that need to feel immediate Examples: - static search query latency budgets - search index generation time budgets - fixture-size scaling checks Rule: - use explicit budgets and stable fixture corpora - keep performance checks lightweight enough for repeatable local execution 4. Convention regression tests Purpose: - catch drift from shared architecture and design-system rules Examples: - theme tokens used consistently - component CSS not reintroducing raw palette literals - single-path runtime contracts staying single-path - no duplicate feature-specific implementations where a shared abstraction is required - runtime feature installs exposing cleanup consistently - markup injection ownership staying within named seams - DOM/history/persistence ownership staying within named seams Rule: - convention checks should fail loudly when implementation drifts from repo standards Current Harness Direction Current harness model: - Node-based headless test runner - repo-local test files under tests/ - shared helpers under tests/helpers/ - script entrypoints in package.json - runtime browser-behavior checks may use a small headless DOM layer, but they must still run through the same repo test runner This should remain the default unless a stronger need appears. Immediate Priorities 1. Convention tests for theme-token discipline. 2. Search ranking fixture tests across active projects. 3. Search performance budget checks for representative corpora. 4. Runtime contract checks for manifests, registry data, and generated search artifacts. 5. Convention tests for any newly documented repo rule that can be verified automatically. Known Convention Risk Already Identified The explorer's active scope/state line has already drifted from theme conventions before. That should be covered by convention tests rather than relied on as a remembered manual check.",
+      "sections": [
+        {
+          "id": "testing-strategy",
+          "heading": "Testing Strategy",
+          "text": "Status: - active foundation strategy - applies to all new test work"
+        },
+        {
+          "id": "goal",
+          "heading": "Goal",
+          "text": "Make the repo's testing model: - explicit - automatable - strict enough to catch regressions before product drift reaches runtime This repo should not accumulate four different testing styles for four different features."
+        },
+        {
+          "id": "rules",
+          "heading": "Rules",
+          "text": "- All tests must run headless. - All tests must be automatable from repo scripts. - A new feature should extend the existing harness, not introduce a parallel test system without a strong reason. - Logic, correctness, performance, and convention checks are all first-class regressions. - If a rule matters to architecture or design-system integrity, encode it in a test or a documented budget, not only in chat memory. - Convention authority lives in app architecture/CONVENTIONS.md."
+        },
+        {
+          "id": "test-layers",
+          "heading": "Test Layers",
+          "text": ""
+        },
+        {
+          "id": "1-logic-regression-tests",
+          "heading": "1. Logic regression tests",
+          "text": "Purpose: - catch broken branching, state transitions, and scoring logic Examples: - search ranking fixtures - query parsing behavior - project selection transition rules - document loading state transitions Rule: - prefer small deterministic fixture inputs - assert exact outputs where practical"
+        },
+        {
+          "id": "2-correctness-regression-tests",
+          "heading": "2. Correctness regression tests",
+          "text": "Purpose: - catch contract breakage between generated artifacts and runtime behavior Examples: - generated search index shape - manifest/runtime compatibility - required docs-browser paths existing - project registry contract checks - static search recall against the indexed corpus Rule: - test the actual shipped contract, not a second mock implementation"
+        },
+        {
+          "id": "3-performance-regression-tests",
+          "heading": "3. Performance regression tests",
+          "text": "Purpose: - catch silent slowdowns in the paths that need to feel immediate Examples: - static search query latency budgets - search index generation time budgets - fixture-size scaling checks Rule: - use explicit budgets and stable fixture corpora - keep performance checks lightweight enough for repeatable local execution"
+        },
+        {
+          "id": "4-convention-regression-tests",
+          "heading": "4. Convention regression tests",
+          "text": "Purpose: - catch drift from shared architecture and design-system rules Examples: - theme tokens used consistently - component CSS not reintroducing raw palette literals - single-path runtime contracts staying single-path - no duplicate feature-specific implementations where a shared abstraction is required - runtime feature installs exposing cleanup consistently - markup injection ownership staying within named seams - DOM/history/persistence ownership staying within named seams Rule: - convention checks should fail loudly when implementation drifts from repo standards"
+        },
+        {
+          "id": "current-harness-direction",
+          "heading": "Current Harness Direction",
+          "text": "Current harness model: - Node-based headless test runner - repo-local test files under tests/ - shared helpers under tests/helpers/ - script entrypoints in package.json - runtime browser-behavior checks may use a small headless DOM layer, but they must still run through the same repo test runner This should remain the default unless a stronger need appears."
+        },
+        {
+          "id": "immediate-priorities",
+          "heading": "Immediate Priorities",
+          "text": "1. Convention tests for theme-token discipline. 2. Search ranking fixture tests across active projects. 3. Search performance budget checks for representative corpora. 4. Runtime contract checks for manifests, registry data, and generated search artifacts. 5. Convention tests for any newly documented repo rule that can be verified automatically."
+        },
+        {
+          "id": "known-convention-risk-already-identified",
+          "heading": "Known Convention Risk Already Identified",
+          "text": "The explorer's active scope/state line has already drifted from theme conventions before. That should be covered by convention tests rather than relied on as a remembered manual check."
+        }
+      ]
+    },
+    {
+      "path": "docs/hygiene/FOUNDATION_TODO.md",
+      "title": "Foundation Todo",
+      "headings": [
+        "Foundation Todo",
+        "Phase 1",
+        "Phase 2",
+        "Questions"
+      ],
+      "text": "Foundation Todo Source review: - docs/review/FOUNDATION REVIEW 2026-04-02.md Standard: - deterministic behavior - single-path runtime contracts - explicit ownership - simpler code after each cleanup pass - test strategy authority: - docs/hygiene/TESTING STRATEGY.md - convention authority: - app architecture/CONVENTIONS.md Phase 1 - [x] Make document loading deterministic. - Add request identity or abort-based cancellation for doc fetches. - Only the latest navigation may commit ready/error viewer state. - Loading/ready/error now commit through a single document-view transition layer instead of separate chrome/viewer render paths. - Authority: - ts/docs/viewer.ts - ts/docs/doc render cycle.ts - [x] Remove document-global DOM coupling from tree behavior. - Scope active-link syncing to the tree root instead of document. - Authority: - ts/tree/tree.ts - [ ] Keep current local search honest while replacing it. - Do not invest in deep rg polish as if it were the long-term product. - The old local ripgrep fallback has now been removed from runtime search behavior so search architecture is no longer ambiguous during implementation. - Current search behavior is static-index-only. - Authority: - ts/search/doc search.ts - howl docs.py Phase 2 - [x] Collapse project selection to one authoritative browser-facing contract. - ?project= is now the only steady-state selection path. - Raw ?config= selection has been removed from steady-state browser behavior. - Launcher-owned root redirect has been removed. - Bare routes are canonicalized to ?project=howl-docs. - ?project=<id must resolve explicitly or fail explicitly; it no longer falls back silently to the default project. - Authority: - ts/config.ts - howl docs.py - [x] Reduce launcher-owned manifest rewriting. - Manifest request-time rewriting has been removed from Python. - Remaining browser normalization is explicit in ts/config.ts. - Authority: - howl docs.py - ts/config.ts - [x] Introduce explicit project-aware browser state. - Selected project id - available project ids - loaded project runtime (config + docs) now lives in app state - runtime install/start sequencing now lives behind an explicit app controller instead of being coordinated directly in ts/app.ts - project switching is now controller-owned rather than shell-owned UI navigation logic - installed runtime features now expose teardown seams via disposer-style install paths, which makes future in-place project transitions technically possible instead of leaking listeners across reloads - project switching now performs an in-place runtime rebootstrap instead of requiring full-page navigation - browser popstate navigation now uses the same app-owned project transition path - registry/runtime model ownership still needs to become more explicit - Authority: - ts/state.ts - ts/shared/types.ts - ts/app.ts - [x] Replace local ripgrep search with a static-bundle search architecture. - Build-time search index generation now exists. - Hosted/pages-capable runtime search behavior now exists. - Python search has been removed from the product path. - Spotlight search remains the stable product surface while the backend is now static-index-driven. - Matching is now recall-first and regression-checked against rg on the repo-local indexed corpus. - Remaining search work is product quality work tracked in app architecture/docs browser/SEARCH EXECUTION PLAN.md, not a foundation architecture blocker. - Authority: - app architecture/docs browser/STATIC SEARCH.md Questions - [x] Finalize the branding fallback contract. Current state: - runtime no longer synthesizes generic ide Howl Docs header text - project title is authoritative - blank or missing brandWordmarkText renders no prefix - blank or missing icon falls back to the shared neutral icon ./assets/icons/folder.svg Authority: - ts/docs/view state.ts - ts/shared/branding.ts - app architecture/docs browser/CONSUMER CONTRACT.md - [x] Confirm that repo-local docs-browser manifests belong in app architecture/docs browser/. Current state: - the old config/ role has been removed - runtime defaults and docs now point at the app architecture/docs browser/ layout - no stronger alternative layout has emerged during the cleanup pass - treat this as the steady-state repo-local docs-browser location unless a future docs architecture review explicitly replaces it",
+      "sections": [
+        {
+          "id": "foundation-todo",
+          "heading": "Foundation Todo",
+          "text": "Source review: - docs/review/FOUNDATION REVIEW 2026-04-02.md Standard: - deterministic behavior - single-path runtime contracts - explicit ownership - simpler code after each cleanup pass - test strategy authority: - docs/hygiene/TESTING STRATEGY.md - convention authority: - app architecture/CONVENTIONS.md"
+        },
+        {
+          "id": "phase-1",
+          "heading": "Phase 1",
+          "text": "- [x] Make document loading deterministic. - Add request identity or abort-based cancellation for doc fetches. - Only the latest navigation may commit ready/error viewer state. - Loading/ready/error now commit through a single document-view transition layer instead of separate chrome/viewer render paths. - Authority: - ts/docs/viewer.ts - ts/docs/doc render cycle.ts - [x] Remove document-global DOM coupling from tree behavior. - Scope active-link syncing to the tree root instead of document. - Authority: - ts/tree/tree.ts - [ ] Keep current local search honest while replacing it. - Do not invest in deep rg polish as if it were the long-term product. - The old local ripgrep fallback has now been removed from runtime search behavior so search architecture is no longer ambiguous during implementation. - Current search behavior is static-index-only. - Authority: - ts/search/doc search.ts - howl docs.py"
+        },
+        {
+          "id": "phase-2",
+          "heading": "Phase 2",
+          "text": "- [x] Collapse project selection to one authoritative browser-facing contract. - ?project= is now the only steady-state selection path. - Raw ?config= selection has been removed from steady-state browser behavior. - Launcher-owned root redirect has been removed. - Bare routes are canonicalized to ?project=howl-docs. - ?project=<id must resolve explicitly or fail explicitly; it no longer falls back silently to the default project. - Authority: - ts/config.ts - howl docs.py - [x] Reduce launcher-owned manifest rewriting. - Manifest request-time rewriting has been removed from Python. - Remaining browser normalization is explicit in ts/config.ts. - Authority: - howl docs.py - ts/config.ts - [x] Introduce explicit project-aware browser state. - Selected project id - available project ids - loaded project runtime (config + docs) now lives in app state - runtime install/start sequencing now lives behind an explicit app controller instead of being coordinated directly in ts/app.ts - project switching is now controller-owned rather than shell-owned UI navigation logic - installed runtime features now expose teardown seams via disposer-style install paths, which makes future in-place project transitions technically possible instead of leaking listeners across reloads - project switching now performs an in-place runtime rebootstrap instead of requiring full-page navigation - browser popstate navigation now uses the same app-owned project transition path - registry/runtime model ownership still needs to become more explicit - Authority: - ts/state.ts - ts/shared/types.ts - ts/app.ts - [x] Replace local ripgrep search with a static-bundle search architecture. - Build-time search index generation now exists. - Hosted/pages-capable runtime search behavior now exists. - Python search has been removed from the product path. - Spotlight search remains the stable product surface while the backend is now static-index-driven. - Matching is now recall-first and regression-checked against rg on the repo-local indexed corpus. - Remaining search work is product quality work tracked in app architecture/docs browser/SEARCH EXECUTION PLAN.md, not a foundation architecture blocker. - Authority: - app architecture/docs browser/STATIC SEARCH.md"
+        },
+        {
+          "id": "questions",
+          "heading": "Questions",
+          "text": "- [x] Finalize the branding fallback contract. Current state: - runtime no longer synthesizes generic ide Howl Docs header text - project title is authoritative - blank or missing brandWordmarkText renders no prefix - blank or missing icon falls back to the shared neutral icon ./assets/icons/folder.svg Authority: - ts/docs/view state.ts - ts/shared/branding.ts - app architecture/docs browser/CONSUMER CONTRACT.md - [x] Confirm that repo-local docs-browser manifests belong in app architecture/docs browser/. Current state: - the old config/ role has been removed - runtime defaults and docs now point at the app architecture/docs browser/ layout - no stronger alternative layout has emerged during the cleanup pass - treat this as the steady-state repo-local docs-browser location unless a future docs architecture review explicitly replaces it"
+        }
+      ]
+    },
+    {
+      "path": "docs/review/FOUNDATION_REVIEW_2026-04-02.md",
+      "title": "Howl Docs Foundation Review",
+      "headings": [
+        "Howl Docs Foundation Review",
+        "Summary",
+        "Findings",
+        "1. Resolved: document loading is deterministic under rapid navigation",
+        "2. Resolved: project selection follows one explicit browser-facing contract",
+        "3. Resolved enough: launcher/runtime ownership is minimal enough for the current product path",
+        "4. Resolved enough: project-aware state is now first-class runtime state",
+        "5. Medium: the current state layer is still mostly a mutable bag",
+        "6. Resolved: tree behavior no longer uses document-global DOM coupling",
+        "7. Resolved enough: search state now has one explicit product path",
+        "8. Resolved enough: browser-facing branding fallback is now explicit",
+        "9. Medium: review and execution authority is improved, but still distributed",
+        "Recommended Next Step"
+      ],
+      "text": "Howl Docs Foundation Review Date: 2026-04-02 Scope: - architectural correctness - implementation determinism - single-path behavior - cleanup readiness before further feature expansion Standard: - behavior should follow one clear path - ownership should be explicit - compatibility fallbacks should be minimized - the codebase should become easier to reason about after each change, not more flexible in hidden ways Summary The codebase is in a much better place than it was at the start of the foundation pass. Resolved foundation items: - document-load determinism is fixed - tree DOM ownership is local instead of document-global - project selection now follows one explicit browser-facing contract - launcher root redirect and request-time manifest rewriting are gone - project runtime lives in app-owned state - project switching is controller-owned and supports in-place runtime rebootstrap - Python is no longer part of the product search path - generic product-specific branding synthesis has been removed The repo is now good enough to treat as a cleaner base for product work. The remaining foundation-level gaps are narrower: - the state layer is still a mutable bag with feature-local orchestration - review/plan authority is improved, but still spread across several docs Findings 1. Resolved: document loading is deterministic under rapid navigation Files: - ts/docs/viewer.ts - ts/docs/doc render cycle.ts Current state: - document loads now use explicit latest-request ownership - stale loads no longer overwrite newer viewer state Why this matters: - current document state now follows routing state instead of timing races 2. Resolved: project selection follows one explicit browser-facing contract Files: - ts/config.ts - howl docs.py Current state: - ?project= is the only steady-state browser selection contract - bare routes canonicalize to the built-in project id - invalid project ids fail explicitly instead of silently falling back Why this matters: - project selection no longer depends on hidden compatibility branches 3. Resolved enough: launcher/runtime ownership is minimal enough for the current product path Files: - howl docs.py Current state: - Python no longer rewrites manifests at request time - Python no longer owns project-selection redirects - launcher responsibility is now mostly transport plus local-dev registry exposure Residual risk: - do not let richer product metadata drift back into the launcher 4. Resolved enough: project-aware state is now first-class runtime state Files: - ts/state.ts - ts/shared/types.ts - ts/app controller.ts Current state: - selected project id, registry entries, and loaded project runtime now live in app-owned state - project switching and popstate share the same controller-owned transition path Residual risk: - the state model is still lighter than a fully explicit transition system 5. Medium: the current state layer is still mostly a mutable bag Files: - ts/state.ts - ts/docs/doc render cycle.ts - ts/search/doc search.ts Problem: - the repo now has much better ownership than before, but state transitions and DOM reactions still live across several modules - naming is cleaner than the actual architecture underneath it Why this matters: - this is now the main remaining architectural softness in the browser runtime Required direction: - keep future work moving toward clearer feature-local transition ownership - avoid adding new ad hoc state branches without controller ownership 6. Resolved: tree behavior no longer uses document-global DOM coupling Files: - ts/tree/tree.ts Current state: - active-link syncing is scoped to the tree root it owns Why this matters: - tree behavior is now a better-contained widget seam 7. Resolved enough: search state now has one explicit product path Files: - ts/search/doc search.ts - app architecture/docs browser/STATIC SEARCH.md Current state: - spotlight search is now static-index-only - projects without a search index show explicit unavailable state - recall-first behavior is regression-checked against rg on the repo-local corpus Residual risk: - search quality and layout polish still remain, but those are execution-plan items, not foundation blockers 8. Resolved enough: browser-facing branding fallback is now explicit Files: - ts/docs/view state.ts - ts/shared/branding.ts - project manifests Current state: - generic runtime phrase synthesis is gone - blank or missing brandWordmarkText renders no prefix - blank or missing icon falls back to the shared neutral icon ./assets/icons/folder.svg Why this matters: - multi-project navigation is now product-facing - fallback behavior no longer depends on hidden runtime wording assumptions 9. Medium: review and execution authority is improved, but still distributed Files: - docs/hygiene/FOUNDATION TODO.md - docs/hygiene/TESTING STRATEGY.md - app architecture/CONVENTIONS.md - app architecture/docs browser/SEARCH EXECUTION PLAN.md Problem: - the repo now has real authority docs - but “where to look first” still depends on the type of work rather than one single operational dashboard Why this matters: - this is manageable now, but still a hygiene concern if the doc set grows Required direction: - keep authority docs small and sharply scoped - avoid creating overlapping “master” docs that just duplicate them Recommended Next Step Do not start another broad review loop. The foundation pass should now close through execution discipline: - keep FOUNDATION TODO.md accurate - treat CONVENTIONS.md and TESTING STRATEGY.md as hard gates - continue product work without reopening compatibility fallbacks or hidden alternate paths",
+      "sections": [
+        {
+          "id": "howl-docs-foundation-review",
+          "heading": "Howl Docs Foundation Review",
+          "text": "Date: 2026-04-02 Scope: - architectural correctness - implementation determinism - single-path behavior - cleanup readiness before further feature expansion Standard: - behavior should follow one clear path - ownership should be explicit - compatibility fallbacks should be minimized - the codebase should become easier to reason about after each change, not more flexible in hidden ways"
+        },
+        {
+          "id": "summary",
+          "heading": "Summary",
+          "text": "The codebase is in a much better place than it was at the start of the foundation pass. Resolved foundation items: - document-load determinism is fixed - tree DOM ownership is local instead of document-global - project selection now follows one explicit browser-facing contract - launcher root redirect and request-time manifest rewriting are gone - project runtime lives in app-owned state - project switching is controller-owned and supports in-place runtime rebootstrap - Python is no longer part of the product search path - generic product-specific branding synthesis has been removed The repo is now good enough to treat as a cleaner base for product work. The remaining foundation-level gaps are narrower: - the state layer is still a mutable bag with feature-local orchestration - review/plan authority is improved, but still spread across several docs"
+        },
+        {
+          "id": "findings",
+          "heading": "Findings",
+          "text": ""
+        },
+        {
+          "id": "1-resolved-document-loading-is-deterministic-under-rapid-navigation",
+          "heading": "1. Resolved: document loading is deterministic under rapid navigation",
+          "text": "Files: - ts/docs/viewer.ts - ts/docs/doc render cycle.ts Current state: - document loads now use explicit latest-request ownership - stale loads no longer overwrite newer viewer state Why this matters: - current document state now follows routing state instead of timing races"
+        },
+        {
+          "id": "2-resolved-project-selection-follows-one-explicit-browser-facing-contract",
+          "heading": "2. Resolved: project selection follows one explicit browser-facing contract",
+          "text": "Files: - ts/config.ts - howl docs.py Current state: - ?project= is the only steady-state browser selection contract - bare routes canonicalize to the built-in project id - invalid project ids fail explicitly instead of silently falling back Why this matters: - project selection no longer depends on hidden compatibility branches"
+        },
+        {
+          "id": "3-resolved-enough-launcher-runtime-ownership-is-minimal-enough-for-the-current-product-path",
+          "heading": "3. Resolved enough: launcher/runtime ownership is minimal enough for the current product path",
+          "text": "Files: - howl docs.py Current state: - Python no longer rewrites manifests at request time - Python no longer owns project-selection redirects - launcher responsibility is now mostly transport plus local-dev registry exposure Residual risk: - do not let richer product metadata drift back into the launcher"
+        },
+        {
+          "id": "4-resolved-enough-project-aware-state-is-now-first-class-runtime-state",
+          "heading": "4. Resolved enough: project-aware state is now first-class runtime state",
+          "text": "Files: - ts/state.ts - ts/shared/types.ts - ts/app controller.ts Current state: - selected project id, registry entries, and loaded project runtime now live in app-owned state - project switching and popstate share the same controller-owned transition path Residual risk: - the state model is still lighter than a fully explicit transition system"
+        },
+        {
+          "id": "5-medium-the-current-state-layer-is-still-mostly-a-mutable-bag",
+          "heading": "5. Medium: the current state layer is still mostly a mutable bag",
+          "text": "Files: - ts/state.ts - ts/docs/doc render cycle.ts - ts/search/doc search.ts Problem: - the repo now has much better ownership than before, but state transitions and DOM reactions still live across several modules - naming is cleaner than the actual architecture underneath it Why this matters: - this is now the main remaining architectural softness in the browser runtime Required direction: - keep future work moving toward clearer feature-local transition ownership - avoid adding new ad hoc state branches without controller ownership"
+        },
+        {
+          "id": "6-resolved-tree-behavior-no-longer-uses-document-global-dom-coupling",
+          "heading": "6. Resolved: tree behavior no longer uses document-global DOM coupling",
+          "text": "Files: - ts/tree/tree.ts Current state: - active-link syncing is scoped to the tree root it owns Why this matters: - tree behavior is now a better-contained widget seam"
+        },
+        {
+          "id": "7-resolved-enough-search-state-now-has-one-explicit-product-path",
+          "heading": "7. Resolved enough: search state now has one explicit product path",
+          "text": "Files: - ts/search/doc search.ts - app architecture/docs browser/STATIC SEARCH.md Current state: - spotlight search is now static-index-only - projects without a search index show explicit unavailable state - recall-first behavior is regression-checked against rg on the repo-local corpus Residual risk: - search quality and layout polish still remain, but those are execution-plan items, not foundation blockers"
+        },
+        {
+          "id": "8-resolved-enough-browser-facing-branding-fallback-is-now-explicit",
+          "heading": "8. Resolved enough: browser-facing branding fallback is now explicit",
+          "text": "Files: - ts/docs/view state.ts - ts/shared/branding.ts - project manifests Current state: - generic runtime phrase synthesis is gone - blank or missing brandWordmarkText renders no prefix - blank or missing icon falls back to the shared neutral icon ./assets/icons/folder.svg Why this matters: - multi-project navigation is now product-facing - fallback behavior no longer depends on hidden runtime wording assumptions"
+        },
+        {
+          "id": "9-medium-review-and-execution-authority-is-improved-but-still-distributed",
+          "heading": "9. Medium: review and execution authority is improved, but still distributed",
+          "text": "Files: - docs/hygiene/FOUNDATION TODO.md - docs/hygiene/TESTING STRATEGY.md - app architecture/CONVENTIONS.md - app architecture/docs browser/SEARCH EXECUTION PLAN.md Problem: - the repo now has real authority docs - but “where to look first” still depends on the type of work rather than one single operational dashboard Why this matters: - this is manageable now, but still a hygiene concern if the doc set grows Required direction: - keep authority docs small and sharply scoped - avoid creating overlapping “master” docs that just duplicate them"
+        },
+        {
+          "id": "recommended-next-step",
+          "heading": "Recommended Next Step",
+          "text": "Do not start another broad review loop. The foundation pass should now close through execution discipline: - keep FOUNDATION TODO.md accurate - treat CONVENTIONS.md and TESTING STRATEGY.md as hard gates - continue product work without reopening compatibility fallbacks or hidden alternate paths"
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/README.md",
+      "title": "Howl Docs Architecture",
+      "headings": [
+        "Howl Docs Architecture",
+        "Goal",
+        "Current Structure",
+        "Runtime Ownership",
+        "Browser app",
+        "Python launcher",
+        "State Model Direction",
+        "Typing Direction",
+        "Reuse Direction",
+        "Current Shell Model",
+        "Theme Ownership Rule",
+        "DOM Ownership Rule",
+        "Refactor Targets",
+        "Non-goals"
+      ],
+      "text": "Howl Docs Architecture Goal Provide a lightweight, reusable local docs browser for repo Markdown without requiring a frontend framework or backend service. Project selection should be expressed in product terms such as stable project ids, not raw config mount paths. Current Structure - app architecture/CONVENTIONS.md - repository-wide implementation and style conventions - index.html - minimal shell and mount points only - ts/shell/shell dom.ts - DOM lookup - required shell element contract - ts/shell/shell icons.ts - shell icon asset injection - shared icon sizing normalization - ts/shell/app shell.ts - shell branding/title/source-link wiring - shell theme/bootstrap initialization - ts/app.ts - application composition root - top-level runtime sequencing only - ts/app bootstrap.ts - startup assembly for shell, theme, controller, and docs runtime - tsconfig.json - minimal TypeScript compile config for docs explorer - emits browser ESM into build/js - styles/base.css - stylesheet manifest/import root - app architecture/ui/README.md - focused design authority for explorer widget/system seams - app architecture/ui/TREE WIDGET.md - current tree connector/highlight direction - styles/theme.css - theme tokens and derived shell/control/viewer surface formulas - styles/shell.css - app-shell layout and outer chrome - atmospheric background field - app-level header above sidebar and content - styles/tree.css - sidebar search/tree styling - styles/controls.css - buttons, options menu, theme toggle - styles/viewer.css - rendered markdown content styling - styles/responsive.css - responsive and collapsed-sidebar rules - ts/main.ts - tiny entrypoint only - ts/config.ts - project registry lookup - project manifest/docs index loading - ts/search/doc search.ts - static-index-backed spotlight search - project-local query matching - modal rendering and keyboard navigation - ts/state.ts - app-state defaults and persistence helpers - ts/shared/types.ts - shared type contracts for state/config/shell/runtime seams - ts/layout.ts - sidebar width/collapse behavior - ts/options menu.ts - options popover behavior - ts/docs/doc controller.ts - small composition seam for docs routing + render lifecycle - document tree refresh - theme-triggered Mermaid rerender delegation - ts/docs/doc routing.ts - hash/search wiring - route/search events separated from document fetch/render lifecycle - ts/docs/doc render cycle.ts - current-doc resolution - document loading lifecycle wiring - document chrome update callbacks - highlight trigger on ready - ts/docs/view state.ts - document status state transitions - small shell-header document chrome rendering from explicit state - ts/tree/tree state.ts - tree filter/active-path state transitions - tree rendering from explicit state - ts/tree/tree model.ts - tree model creation from doc paths - ts/tree/tree markup.ts - tree HTML markup generation from the tree model - ts/docs/viewer state.ts - viewer body render state transitions - loading/error/content HTML rendering from explicit state - ts/tree/tree.ts - tree rendering and active-node sync - ts/docs/viewer.ts - document loading and viewer updates - ts/theme/theme.ts - theme selection and persistence - ts/docs/mermaid.ts - Mermaid initialization and rerendering - ts/docs/markdown.ts - Markdown renderer setup - ts/shared/utils.ts - small shared helpers - ts/shared/vendor types.ts - typed browser-vendor seams - ts/shared/external.d.ts - typed ESM/CDN module declarations - app architecture/docs browser/project.howl-docs.json - local project manifest - project-specific title/icon/defaults - explicit repoBasePath for local content fetches - app architecture/docs browser/project.howl-docs.pages.json - hosted/pages project manifest - app architecture/docs browser/docs-index.howl-docs.json - project-specific doc list - app architecture/docs browser/MULTI PROJECT PLAN.md - first multi-project product execution plan - howl docs.py - local launcher - local HTTP transport only Runtime Ownership Browser app The browser runtime is the real app. It should own: - app state - UI state transitions - view rendering - persistence in localStorage - project manifest loading - project selection from a stable registry contract - doc fetch lifecycle Python launcher The launcher is support infrastructure only. It should own: - local HTTP serving - optional future helper commands It should not own: - app state - routing - navigation decisions - rendering decisions The browser app still owns the search UX: - query state - modal state - result rendering - result selection/navigation State Model Direction The app should keep converging toward one explicit state object instead of scattered DOM-driven updates. Current app state shape is centered on: - current doc - theme - sidebar.width - sidebar.collapsed - options menu.open - search.query - text search.query - text search.open - text search.status - text search.selected index - document.title - document.subtitle - document.raw link - viewer.html - tree.filter - tree.active path - tree.expanded paths The next cleanup goal is not \"add more features\" but to keep reducing places where DOM structure or CSS-specific assumptions leak across module boundaries. Theme is now part of explicit app state rather than being owned only through DOM reads and local storage helpers. Document chrome, tree state, and viewer body state now also flow through explicit controller/state seams instead of being mutated ad hoc inside the fetch/render path. Recommended pattern: - state mutations happen through named functions - DOM updates are triggered from those state transitions - persistence is centralized instead of scattered across modules This does not require React or another framework. A small explicit state module is enough. The current typing direction is: - the browser app source lives under ts/ - source is grouped by concern instead of one flat source directory - browser output is compiled into build/js - there is no long-lived checkJs path anymore Typing Direction The original caution about “architecture first, types second” still applies, but the core move to real TypeScript has now happened. Reason: - current risk is muddled ownership and mixed concerns, not lack of type syntax - the value of .ts is now in keeping the new module seams explicit and harder to erode Short rule: - architecture first - types second - keep the type layer thin and aligned to stable seams Reuse Direction To reuse this tool across repos: - keep the app generic - move repo-specific identity into project manifests - move doc-index generation into a small optional helper - support multiple project config variants when runtime pathing differs The browser-facing selection contract should use stable project ids and stable routes or query parameters. It should not expose launcher-private mount paths or filesystem details. The generic app should not know about repo-specific architecture concepts. It also should not require CSS edits for simple project-level branding changes. Hosted/local path handling should be explicit in project manifests rather than buried in hardcoded relative URL helpers. Current Shell Model The current shell should follow one simple visual rule: - the outer shell owns atmosphere - panes own material layers - small wrappers and controls should prefer transparency, border, and hover state before adding their own local fill That means: - avoid per-widget decorative backgrounds when a pane/token already exists - keep shell/control/viewer materials derived from theme tokens - do not let local one-off color-mix(...) values grow faster than the token system Theme Ownership Rule The theme system should stay split into two layers: - config-owned base palette tokens - bg, bg2 - panel, panel2, panel3 - ink, muted - line, lineSoft - accent, accentSoft, accentStrong - activeLink - code - treeActive - CSS-owned derived material tokens - shell atmosphere - pane materials - header/control surfaces - menu surfaces - viewer raised/callout surfaces Projects should be able to change the base palette in config. They should not need to define their own per-component surface formulas. The current config surface is intentionally the stopping point unless a real cross-project reuse need appears. Token usage rule: - if a component needs a new repeated surface or interaction color, add or refine a named token in styles/theme.css first - only keep a component-local formula when it is truly one-off and unlikely to be shared - prefer reducing formulas in component CSS over growing them DOM Ownership Rule Keep raw DOM ownership narrow. Allowed direct DOM ownership seams: - ts/shell/shell dom.ts - required element lookup only - ts/shell/shell icons.ts - icon injection only - ts/tree/tree.ts - tree HTML mount plus folder toggle listeners - ts/docs/viewer.ts - viewer mount/fetch lifecycle - ts/options menu.ts - popup interaction wiring Everything else should prefer: - explicit state transitions - small render helpers - passing shell/state/controller contracts instead of querying DOM ad hoc Refactor Targets Current likely next candidates: - app architecture/ui/TREE WIDGET.md - use this as the authority for the tree connector rewrite instead of letting the implementation drift through CSS-only tweaks - styles/theme.css - keep the base-palette vs derived-material split obvious - ts/docs/view state.ts - keep document chrome intentionally small and avoid letting app-shell branding/navigation concerns turn back into document-specific chrome - ts/docs/doc controller.ts - keep it as composition/assembly only; do not let it become the integration junk drawer again - ts/app.ts - keep it as composition root only; do not let it bloat back into a new monolith - ts/tree/ - keep model, markup, and DOM orchestration separate as the tree evolves - ts/shell/ - keep DOM lookup, icon loading, and bootstrap concerns separate Non-goals - no SPA framework migration unless the tool becomes dramatically more complex - no backend dependency - no custom Markdown authoring workflow - no duplication of source docs inside the tool",
+      "sections": [
+        {
+          "id": "howl-docs-architecture",
+          "heading": "Howl Docs Architecture",
+          "text": ""
+        },
+        {
+          "id": "goal",
+          "heading": "Goal",
+          "text": "Provide a lightweight, reusable local docs browser for repo Markdown without requiring a frontend framework or backend service. Project selection should be expressed in product terms such as stable project ids, not raw config mount paths."
+        },
+        {
+          "id": "current-structure",
+          "heading": "Current Structure",
+          "text": "- app architecture/CONVENTIONS.md - repository-wide implementation and style conventions - index.html - minimal shell and mount points only - ts/shell/shell dom.ts - DOM lookup - required shell element contract - ts/shell/shell icons.ts - shell icon asset injection - shared icon sizing normalization - ts/shell/app shell.ts - shell branding/title/source-link wiring - shell theme/bootstrap initialization - ts/app.ts - application composition root - top-level runtime sequencing only - ts/app bootstrap.ts - startup assembly for shell, theme, controller, and docs runtime - tsconfig.json - minimal TypeScript compile config for docs explorer - emits browser ESM into build/js - styles/base.css - stylesheet manifest/import root - app architecture/ui/README.md - focused design authority for explorer widget/system seams - app architecture/ui/TREE WIDGET.md - current tree connector/highlight direction - styles/theme.css - theme tokens and derived shell/control/viewer surface formulas - styles/shell.css - app-shell layout and outer chrome - atmospheric background field - app-level header above sidebar and content - styles/tree.css - sidebar search/tree styling - styles/controls.css - buttons, options menu, theme toggle - styles/viewer.css - rendered markdown content styling - styles/responsive.css - responsive and collapsed-sidebar rules - ts/main.ts - tiny entrypoint only - ts/config.ts - project registry lookup - project manifest/docs index loading - ts/search/doc search.ts - static-index-backed spotlight search - project-local query matching - modal rendering and keyboard navigation - ts/state.ts - app-state defaults and persistence helpers - ts/shared/types.ts - shared type contracts for state/config/shell/runtime seams - ts/layout.ts - sidebar width/collapse behavior - ts/options menu.ts - options popover behavior - ts/docs/doc controller.ts - small composition seam for docs routing + render lifecycle - document tree refresh - theme-triggered Mermaid rerender delegation - ts/docs/doc routing.ts - hash/search wiring - route/search events separated from document fetch/render lifecycle - ts/docs/doc render cycle.ts - current-doc resolution - document loading lifecycle wiring - document chrome update callbacks - highlight trigger on ready - ts/docs/view state.ts - document status state transitions - small shell-header document chrome rendering from explicit state - ts/tree/tree state.ts - tree filter/active-path state transitions - tree rendering from explicit state - ts/tree/tree model.ts - tree model creation from doc paths - ts/tree/tree markup.ts - tree HTML markup generation from the tree model - ts/docs/viewer state.ts - viewer body render state transitions - loading/error/content HTML rendering from explicit state - ts/tree/tree.ts - tree rendering and active-node sync - ts/docs/viewer.ts - document loading and viewer updates - ts/theme/theme.ts - theme selection and persistence - ts/docs/mermaid.ts - Mermaid initialization and rerendering - ts/docs/markdown.ts - Markdown renderer setup - ts/shared/utils.ts - small shared helpers - ts/shared/vendor types.ts - typed browser-vendor seams - ts/shared/external.d.ts - typed ESM/CDN module declarations - app architecture/docs browser/project.howl-docs.json - local project manifest - project-specific title/icon/defaults - explicit repoBasePath for local content fetches - app architecture/docs browser/project.howl-docs.pages.json - hosted/pages project manifest - app architecture/docs browser/docs-index.howl-docs.json - project-specific doc list - app architecture/docs browser/MULTI PROJECT PLAN.md - first multi-project product execution plan - howl docs.py - local launcher - local HTTP transport only"
+        },
+        {
+          "id": "runtime-ownership",
+          "heading": "Runtime Ownership",
+          "text": ""
+        },
+        {
+          "id": "browser-app",
+          "heading": "Browser app",
+          "text": "The browser runtime is the real app. It should own: - app state - UI state transitions - view rendering - persistence in localStorage - project manifest loading - project selection from a stable registry contract - doc fetch lifecycle"
+        },
+        {
+          "id": "python-launcher",
+          "heading": "Python launcher",
+          "text": "The launcher is support infrastructure only. It should own: - local HTTP serving - optional future helper commands It should not own: - app state - routing - navigation decisions - rendering decisions The browser app still owns the search UX: - query state - modal state - result rendering - result selection/navigation"
+        },
+        {
+          "id": "state-model-direction",
+          "heading": "State Model Direction",
+          "text": "The app should keep converging toward one explicit state object instead of scattered DOM-driven updates. Current app state shape is centered on: - current doc - theme - sidebar.width - sidebar.collapsed - options menu.open - search.query - text search.query - text search.open - text search.status - text search.selected index - document.title - document.subtitle - document.raw link - viewer.html - tree.filter - tree.active path - tree.expanded paths The next cleanup goal is not \"add more features\" but to keep reducing places where DOM structure or CSS-specific assumptions leak across module boundaries. Theme is now part of explicit app state rather than being owned only through DOM reads and local storage helpers. Document chrome, tree state, and viewer body state now also flow through explicit controller/state seams instead of being mutated ad hoc inside the fetch/render path. Recommended pattern: - state mutations happen through named functions - DOM updates are triggered from those state transitions - persistence is centralized instead of scattered across modules This does not require React or another framework. A small explicit state module is enough. The current typing direction is: - the browser app source lives under ts/ - source is grouped by concern instead of one flat source directory - browser output is compiled into build/js - there is no long-lived checkJs path anymore"
+        },
+        {
+          "id": "typing-direction",
+          "heading": "Typing Direction",
+          "text": "The original caution about “architecture first, types second” still applies, but the core move to real TypeScript has now happened. Reason: - current risk is muddled ownership and mixed concerns, not lack of type syntax - the value of .ts is now in keeping the new module seams explicit and harder to erode Short rule: - architecture first - types second - keep the type layer thin and aligned to stable seams"
+        },
+        {
+          "id": "reuse-direction",
+          "heading": "Reuse Direction",
+          "text": "To reuse this tool across repos: - keep the app generic - move repo-specific identity into project manifests - move doc-index generation into a small optional helper - support multiple project config variants when runtime pathing differs The browser-facing selection contract should use stable project ids and stable routes or query parameters. It should not expose launcher-private mount paths or filesystem details. The generic app should not know about repo-specific architecture concepts. It also should not require CSS edits for simple project-level branding changes. Hosted/local path handling should be explicit in project manifests rather than buried in hardcoded relative URL helpers."
+        },
+        {
+          "id": "current-shell-model",
+          "heading": "Current Shell Model",
+          "text": "The current shell should follow one simple visual rule: - the outer shell owns atmosphere - panes own material layers - small wrappers and controls should prefer transparency, border, and hover state before adding their own local fill That means: - avoid per-widget decorative backgrounds when a pane/token already exists - keep shell/control/viewer materials derived from theme tokens - do not let local one-off color-mix(...) values grow faster than the token system"
+        },
+        {
+          "id": "theme-ownership-rule",
+          "heading": "Theme Ownership Rule",
+          "text": "The theme system should stay split into two layers: - config-owned base palette tokens - bg, bg2 - panel, panel2, panel3 - ink, muted - line, lineSoft - accent, accentSoft, accentStrong - activeLink - code - treeActive - CSS-owned derived material tokens - shell atmosphere - pane materials - header/control surfaces - menu surfaces - viewer raised/callout surfaces Projects should be able to change the base palette in config. They should not need to define their own per-component surface formulas. The current config surface is intentionally the stopping point unless a real cross-project reuse need appears. Token usage rule: - if a component needs a new repeated surface or interaction color, add or refine a named token in styles/theme.css first - only keep a component-local formula when it is truly one-off and unlikely to be shared - prefer reducing formulas in component CSS over growing them"
+        },
+        {
+          "id": "dom-ownership-rule",
+          "heading": "DOM Ownership Rule",
+          "text": "Keep raw DOM ownership narrow. Allowed direct DOM ownership seams: - ts/shell/shell dom.ts - required element lookup only - ts/shell/shell icons.ts - icon injection only - ts/tree/tree.ts - tree HTML mount plus folder toggle listeners - ts/docs/viewer.ts - viewer mount/fetch lifecycle - ts/options menu.ts - popup interaction wiring Everything else should prefer: - explicit state transitions - small render helpers - passing shell/state/controller contracts instead of querying DOM ad hoc"
+        },
+        {
+          "id": "refactor-targets",
+          "heading": "Refactor Targets",
+          "text": "Current likely next candidates: - app architecture/ui/TREE WIDGET.md - use this as the authority for the tree connector rewrite instead of letting the implementation drift through CSS-only tweaks - styles/theme.css - keep the base-palette vs derived-material split obvious - ts/docs/view state.ts - keep document chrome intentionally small and avoid letting app-shell branding/navigation concerns turn back into document-specific chrome - ts/docs/doc controller.ts - keep it as composition/assembly only; do not let it become the integration junk drawer again - ts/app.ts - keep it as composition root only; do not let it bloat back into a new monolith - ts/tree/ - keep model, markup, and DOM orchestration separate as the tree evolves - ts/shell/ - keep DOM lookup, icon loading, and bootstrap concerns separate"
+        },
+        {
+          "id": "non-goals",
+          "heading": "Non-goals",
+          "text": "- no SPA framework migration unless the tool becomes dramatically more complex - no backend dependency - no custom Markdown authoring workflow - no duplication of source docs inside the tool"
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/docs_browser/CONSUMER_CONTRACT.md",
+      "title": "Consumer Contract",
+      "headings": [
+        "Consumer Contract",
+        "Model",
+        "Launch Modes",
+        "Local dev",
+        "Hosted / Pages",
+        "Project Manifest Fields",
+        "Path Rules",
+        "`repoBasePath`",
+        "`docsIndexPath`",
+        "`icon`",
+        "Docs Index",
+        "Search Contract",
+        "Project Selection Contract",
+        "Reference Consumer"
+      ],
+      "text": "Consumer Contract This file defines the integration contract for repos that want to use howl-docs as an external docs browser. Model A consumer repo owns: - its own project manifest - its own docs-index JSON - its own docs tree - its own branding choices howl-docs owns: - the browser app - local HTTP serving - static search runtime behavior - rendering and navigation behavior Do not copy consumer project manifests into this repo as tracked files just to make the launcher happy. Pass the consumer config path directly to howl docs.py. Launch Modes Local dev Use howl docs.py and pass either: - no config argument, which loads ./app architecture/docs browser/project.howl-docs.json - a project manifest path inside this repo - one arbitrary external config path - multiple external config paths to expose one multi-project registry Example: cd /path/to/howl-docs python3 howl docs.py 8010 ../zbar/tools/docs browser/project.zbar.json Example with multiple projects: cd /path/to/howl-docs python3 howl docs.py 8010 \\ ../zbar/tools/docs browser/project.zbar.json \\ ../wayspot/tools/docs browser/project.wayspot.json \\ ../zide/app architecture/docs browser/project.zide.json \\ ../cwatch/tools/docs browser/project.cwatch.json When an external config path is used, the launcher mounts that config directory through a local HTTP path so relative config assets still work. The browser-facing selection contract is a stable project id such as ?project=zbar, not a raw mounted config path. Hosted / Pages Hosted mode is static-only. There is no local Python seam for search. Use a hosted config such as project.pages.json and set: - runtimeMode to \"github-pages\" - repoBasePath to the hosted site root for the target repo Example: { \"runtimeMode\": \"github-pages\", \"repoBasePath\": \"/howl-docs/\" } Project Manifest Fields Required fields: - title: authoritative project title shown in the header - icon: icon URL used for header branding and favicon; if omitted or blank, runtime falls back to the shared neutral icon ./assets/icons/folder.svg - repoBasePath: base path used to load docs and repo assets - defaultDoc: default document path, usually README.md - docRoots: top-level directories to include in the tree model - includeExtensions: extensions allowed in the doc tree, such as [\".md\"] Optional fields: - category: optional project grouping label for the multi-project chooser; blank or missing values fall back to Other - brandWordmarkText: optional short prefix shown before the project title; blank or missing values render no prefix, and no generic fallback token is synthesized by the runtime - docsIndexPath: path to the docs-index JSON - repoUrl: source repository URL for the GitHub button - supportUrl: optional support link target - supportLabel: optional support link text - runtimeMode: currently local-dev or github-pages - theme: dark/light base palette overrides - repoAbsolutePath: optional local-only absolute repo root for rewriting absolute Markdown media links; do not rely on this unless you actually need it Path Rules repoBasePath repoBasePath is the root used for normal doc/media fetches. Examples: - local self-hosted config in this repo: \".\" - local external consumer config: \"/ project repo/<project-id /\" - pages deployment: \"/howl-docs/\" This value should point at the consumer repo root from the browser's point of view, not from the shell's point of view. For external local-dev configs, howl docs.py mounts the consumer repo under a project-scoped path such as \"/ project repo/zbar/\". docsIndexPath If omitted, the app loads ./docs-index.json relative to the project manifest. If present, it resolves relative to the config file that declared it, not relative to the app root. That means a consumer config can safely say: { \"docsIndexPath\": \"./docs-index.zbar.json\" } icon icon is loaded as a normal browser URL. Keep it reachable from the served page. Examples: - local standalone config: \"./assets/icons/github.svg\" - external consumer config: \"/ project repo/zbar/assets/icon/zbar-icon.png\" - pages config: \"/howl-docs/assets/icons/github.svg\" Docs Index The docs-index file is a JSON array of repo-relative document paths. Example: [ \"README.md\", \"docs/INDEX.md\", \"app architecture/BOOTSTRAP.md\" ] Each entry should be relative to the consumer repo root implied by repoBasePath. Search Contract Full-text search is now static-index-based in both local-dev and hosted mode. Requirements: - the consumer should generate and ship a search-index.<project .json - the project manifest should expose that artifact through searchIndexPath - docs listed in the docs index must resolve inside the target repo root used to generate the artifact If no search index is present, the browser shows search as unavailable for that project. There is no Python search fallback in the product path. Project Selection Contract The browser should select projects by stable project id. When the launcher exposes multiple projects, the registry entry for each project also includes a category label used for grouped chooser UI. Current local-dev form: http://127.0.0.1:8010/?project=zbar The launcher exposes the project registry at / projects. The browser canonicalizes bare routes to the explicit built-in project id: http://127.0.0.1:8010/?project=howl-docs Do not build local workflows around raw mount internals such as / config root/.... Those paths are implementation details owned by the launcher. Reference Consumer zbar is the current reference integration. Files: - ../zbar/scripts/open docs browser.sh - ../zbar/tools/docs browser/project.zbar.json - ../zbar/tools/docs browser/docs-index.zbar.json That setup is the pattern to copy into other repos until a more formal wrapper exists.",
+      "sections": [
+        {
+          "id": "consumer-contract",
+          "heading": "Consumer Contract",
+          "text": "This file defines the integration contract for repos that want to use howl-docs as an external docs browser."
+        },
+        {
+          "id": "model",
+          "heading": "Model",
+          "text": "A consumer repo owns: - its own project manifest - its own docs-index JSON - its own docs tree - its own branding choices howl-docs owns: - the browser app - local HTTP serving - static search runtime behavior - rendering and navigation behavior Do not copy consumer project manifests into this repo as tracked files just to make the launcher happy. Pass the consumer config path directly to howl docs.py."
+        },
+        {
+          "id": "launch-modes",
+          "heading": "Launch Modes",
+          "text": ""
+        },
+        {
+          "id": "local-dev",
+          "heading": "Local dev",
+          "text": "Use howl docs.py and pass either: - no config argument, which loads ./app architecture/docs browser/project.howl-docs.json - a project manifest path inside this repo - one arbitrary external config path - multiple external config paths to expose one multi-project registry Example: cd /path/to/howl-docs python3 howl docs.py 8010 ../zbar/tools/docs browser/project.zbar.json Example with multiple projects: cd /path/to/howl-docs python3 howl docs.py 8010 \\ ../zbar/tools/docs browser/project.zbar.json \\ ../wayspot/tools/docs browser/project.wayspot.json \\ ../zide/app architecture/docs browser/project.zide.json \\ ../cwatch/tools/docs browser/project.cwatch.json When an external config path is used, the launcher mounts that config directory through a local HTTP path so relative config assets still work. The browser-facing selection contract is a stable project id such as ?project=zbar, not a raw mounted config path."
+        },
+        {
+          "id": "hosted-pages",
+          "heading": "Hosted / Pages",
+          "text": "Hosted mode is static-only. There is no local Python seam for search. Use a hosted config such as project.pages.json and set: - runtimeMode to \"github-pages\" - repoBasePath to the hosted site root for the target repo Example: { \"runtimeMode\": \"github-pages\", \"repoBasePath\": \"/howl-docs/\" }"
+        },
+        {
+          "id": "project-manifest-fields",
+          "heading": "Project Manifest Fields",
+          "text": "Required fields: - title: authoritative project title shown in the header - icon: icon URL used for header branding and favicon; if omitted or blank, runtime falls back to the shared neutral icon ./assets/icons/folder.svg - repoBasePath: base path used to load docs and repo assets - defaultDoc: default document path, usually README.md - docRoots: top-level directories to include in the tree model - includeExtensions: extensions allowed in the doc tree, such as [\".md\"] Optional fields: - category: optional project grouping label for the multi-project chooser; blank or missing values fall back to Other - brandWordmarkText: optional short prefix shown before the project title; blank or missing values render no prefix, and no generic fallback token is synthesized by the runtime - docsIndexPath: path to the docs-index JSON - repoUrl: source repository URL for the GitHub button - supportUrl: optional support link target - supportLabel: optional support link text - runtimeMode: currently local-dev or github-pages - theme: dark/light base palette overrides - repoAbsolutePath: optional local-only absolute repo root for rewriting absolute Markdown media links; do not rely on this unless you actually need it"
+        },
+        {
+          "id": "path-rules",
+          "heading": "Path Rules",
+          "text": ""
+        },
+        {
+          "id": "repobasepath",
+          "heading": "`repoBasePath`",
+          "text": "repoBasePath is the root used for normal doc/media fetches. Examples: - local self-hosted config in this repo: \".\" - local external consumer config: \"/ project repo/<project-id /\" - pages deployment: \"/howl-docs/\" This value should point at the consumer repo root from the browser's point of view, not from the shell's point of view. For external local-dev configs, howl docs.py mounts the consumer repo under a project-scoped path such as \"/ project repo/zbar/\"."
+        },
+        {
+          "id": "docsindexpath",
+          "heading": "`docsIndexPath`",
+          "text": "If omitted, the app loads ./docs-index.json relative to the project manifest. If present, it resolves relative to the config file that declared it, not relative to the app root. That means a consumer config can safely say: { \"docsIndexPath\": \"./docs-index.zbar.json\" }"
+        },
+        {
+          "id": "icon",
+          "heading": "`icon`",
+          "text": "icon is loaded as a normal browser URL. Keep it reachable from the served page. Examples: - local standalone config: \"./assets/icons/github.svg\" - external consumer config: \"/ project repo/zbar/assets/icon/zbar-icon.png\" - pages config: \"/howl-docs/assets/icons/github.svg\""
+        },
+        {
+          "id": "docs-index",
+          "heading": "Docs Index",
+          "text": "The docs-index file is a JSON array of repo-relative document paths. Example: [ \"README.md\", \"docs/INDEX.md\", \"app architecture/BOOTSTRAP.md\" ] Each entry should be relative to the consumer repo root implied by repoBasePath."
+        },
+        {
+          "id": "search-contract",
+          "heading": "Search Contract",
+          "text": "Full-text search is now static-index-based in both local-dev and hosted mode. Requirements: - the consumer should generate and ship a search-index.<project .json - the project manifest should expose that artifact through searchIndexPath - docs listed in the docs index must resolve inside the target repo root used to generate the artifact If no search index is present, the browser shows search as unavailable for that project. There is no Python search fallback in the product path."
+        },
+        {
+          "id": "project-selection-contract",
+          "heading": "Project Selection Contract",
+          "text": "The browser should select projects by stable project id. When the launcher exposes multiple projects, the registry entry for each project also includes a category label used for grouped chooser UI. Current local-dev form: http://127.0.0.1:8010/?project=zbar The launcher exposes the project registry at / projects. The browser canonicalizes bare routes to the explicit built-in project id: http://127.0.0.1:8010/?project=howl-docs Do not build local workflows around raw mount internals such as / config root/.... Those paths are implementation details owned by the launcher."
+        },
+        {
+          "id": "reference-consumer",
+          "heading": "Reference Consumer",
+          "text": "zbar is the current reference integration. Files: - ../zbar/scripts/open docs browser.sh - ../zbar/tools/docs browser/project.zbar.json - ../zbar/tools/docs browser/docs-index.zbar.json That setup is the pattern to copy into other repos until a more formal wrapper exists."
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/docs_browser/SEARCH_EXECUTION_PLAN.md",
+      "title": "Search Execution Plan",
+      "headings": [
+        "Search Execution Plan",
+        "Goal",
+        "End State",
+        "Product Direction",
+        "Search surface",
+        "Phases",
+        "Phase 1: Runtime correctness",
+        "Phase 2: Relevance quality",
+        "Phase 3: Responsiveness and feedback",
+        "Phase 4: Spotlight layout",
+        "Acceptance Criteria",
+        "Non-Goals For Now",
+        "Immediate Next Step"
+      ],
+      "text": "Search Execution Plan Status: - active execution plan - follows STATIC SEARCH.md Goal Deliver a browser-only docs search experience that: - feels immediate on real project corpora - behaves the same in local-dev and hosted mode - keeps the spotlight widget as the stable product surface - is simple enough to reason about and evolve without reintroducing ambiguity End State We should end up with: - generated static search index artifacts for supported projects - browser-only search runtime with no Python product-path dependency - deterministic recall-first matching rules documented in-repo - explicit search states for loading, unavailable, empty, and error - keyboard-first result navigation - a view-centered search bar layout rather than a top-bar-hugging dropdown Product Direction Search surface The current search button + modal is transitional structure, not the final layout. Target direction: - search remains toggle-driven - the widget becomes view-centered in the content area - the bar should feel like a spotlight / command-palette surface - the top bar should launch search, not visually contain the search experience This means the final visual center of gravity should move away from the header and toward the viewer plane. Phases Phase 1: Runtime correctness Goals: - static search index loads as part of project runtime - search works without Python endpoints - missing index produces explicit unavailable state Exit criteria: - every supported project either has a generated index or clearly shows search unavailable - no runtime fallback path muddies behavior Phase 2: Relevance quality Goals: - recall stays close to indexed-corpus rg expectations - snippets are readable and stable - ordering remains deterministic and simple Work: - compare recall against rg for representative queries - simplify matching so broad terms do not lose valid matches too early - add explicit field filters before adding heavier implicit ranking Exit criteria: - common targeted queries return obviously useful hits across howl-docs, zide, zbar, wayspot, and cwatch - broad literal queries do not silently under-recall relative to the indexed corpus Phase 3: Responsiveness and feedback Goals: - search feels immediate under normal project sizes - feedback states are clear while typing Work: - reduce per-query work - precompute more at build time if needed - consider worker isolation if main-thread responsiveness is not good enough Exit criteria: - typing does not visibly stall the UI - result/state updates feel immediate enough for a spotlight interaction Phase 4: Spotlight layout Goals: - search surface is view-centered - top bar acts as launcher only - result list and status read as one focused search workspace Work: - move the active widget away from header-attached positioning - make overlay sizing/layout work against the viewer plane - keep keyboard flow unchanged while layout evolves Exit criteria: - no top-bar-hugging search layout remains - the search surface reads as a centered view overlay, not a dropdown control Acceptance Criteria Search should be considered “good enough” when: - the correct project index is always used - missing index state is explicit - common title/path queries feel instant - common heading/body queries feel predictably matched - broad literal queries behave closer to rg expectations on the same indexed docs - keyboard navigation is reliable - the spotlight layout is centered and visually self-contained Non-Goals For Now - full fuzzy-finder parity with fzf - perfect grep-grade recall on massive corpora - advanced query syntax - chunked index sharding before relevance problems justify it Immediate Next Step Implement Phase 2 deliberately: - add recall fixtures against rg for representative queries - simplify the matcher toward recall-first deterministic behavior - tune snippets against the current five active projects - only then start the layout shift toward the view-centered spotlight",
+      "sections": [
+        {
+          "id": "search-execution-plan",
+          "heading": "Search Execution Plan",
+          "text": "Status: - active execution plan - follows STATIC SEARCH.md"
+        },
+        {
+          "id": "goal",
+          "heading": "Goal",
+          "text": "Deliver a browser-only docs search experience that: - feels immediate on real project corpora - behaves the same in local-dev and hosted mode - keeps the spotlight widget as the stable product surface - is simple enough to reason about and evolve without reintroducing ambiguity"
+        },
+        {
+          "id": "end-state",
+          "heading": "End State",
+          "text": "We should end up with: - generated static search index artifacts for supported projects - browser-only search runtime with no Python product-path dependency - deterministic recall-first matching rules documented in-repo - explicit search states for loading, unavailable, empty, and error - keyboard-first result navigation - a view-centered search bar layout rather than a top-bar-hugging dropdown"
+        },
+        {
+          "id": "product-direction",
+          "heading": "Product Direction",
+          "text": ""
+        },
+        {
+          "id": "search-surface",
+          "heading": "Search surface",
+          "text": "The current search button + modal is transitional structure, not the final layout. Target direction: - search remains toggle-driven - the widget becomes view-centered in the content area - the bar should feel like a spotlight / command-palette surface - the top bar should launch search, not visually contain the search experience This means the final visual center of gravity should move away from the header and toward the viewer plane."
+        },
+        {
+          "id": "phases",
+          "heading": "Phases",
+          "text": ""
+        },
+        {
+          "id": "phase-1-runtime-correctness",
+          "heading": "Phase 1: Runtime correctness",
+          "text": "Goals: - static search index loads as part of project runtime - search works without Python endpoints - missing index produces explicit unavailable state Exit criteria: - every supported project either has a generated index or clearly shows search unavailable - no runtime fallback path muddies behavior"
+        },
+        {
+          "id": "phase-2-relevance-quality",
+          "heading": "Phase 2: Relevance quality",
+          "text": "Goals: - recall stays close to indexed-corpus rg expectations - snippets are readable and stable - ordering remains deterministic and simple Work: - compare recall against rg for representative queries - simplify matching so broad terms do not lose valid matches too early - add explicit field filters before adding heavier implicit ranking Exit criteria: - common targeted queries return obviously useful hits across howl-docs, zide, zbar, wayspot, and cwatch - broad literal queries do not silently under-recall relative to the indexed corpus"
+        },
+        {
+          "id": "phase-3-responsiveness-and-feedback",
+          "heading": "Phase 3: Responsiveness and feedback",
+          "text": "Goals: - search feels immediate under normal project sizes - feedback states are clear while typing Work: - reduce per-query work - precompute more at build time if needed - consider worker isolation if main-thread responsiveness is not good enough Exit criteria: - typing does not visibly stall the UI - result/state updates feel immediate enough for a spotlight interaction"
+        },
+        {
+          "id": "phase-4-spotlight-layout",
+          "heading": "Phase 4: Spotlight layout",
+          "text": "Goals: - search surface is view-centered - top bar acts as launcher only - result list and status read as one focused search workspace Work: - move the active widget away from header-attached positioning - make overlay sizing/layout work against the viewer plane - keep keyboard flow unchanged while layout evolves Exit criteria: - no top-bar-hugging search layout remains - the search surface reads as a centered view overlay, not a dropdown control"
+        },
+        {
+          "id": "acceptance-criteria",
+          "heading": "Acceptance Criteria",
+          "text": "Search should be considered “good enough” when: - the correct project index is always used - missing index state is explicit - common title/path queries feel instant - common heading/body queries feel predictably matched - broad literal queries behave closer to rg expectations on the same indexed docs - keyboard navigation is reliable - the spotlight layout is centered and visually self-contained"
+        },
+        {
+          "id": "non-goals-for-now",
+          "heading": "Non-Goals For Now",
+          "text": "- full fuzzy-finder parity with fzf - perfect grep-grade recall on massive corpora - advanced query syntax - chunked index sharding before relevance problems justify it"
+        },
+        {
+          "id": "immediate-next-step",
+          "heading": "Immediate Next Step",
+          "text": "Implement Phase 2 deliberately: - add recall fixtures against rg for representative queries - simplify the matcher toward recall-first deterministic behavior - tune snippets against the current five active projects - only then start the layout shift toward the view-centered spotlight"
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/docs_browser/STATIC_SEARCH.md",
+      "title": "Static Search Direction",
+      "headings": [
+        "Static Search Direction",
+        "Problem",
+        "Direction",
+        "Contract",
+        "Build time",
+        "Generated schema",
+        "Runtime",
+        "Search surface",
+        "Transitional local-dev behavior",
+        "Open Decisions",
+        "Search unit",
+        "Ranking",
+        "Highlighting",
+        "Ownership",
+        "Search filtering",
+        "Immediate Next Step",
+        "Initial implementation seam"
+      ],
+      "text": "Static Search Direction Status: - active architecture note - intended to replace local ripgrep search as the primary product path Problem The current search feature is centered on local ripgrep through howl docs.py. That is not aligned with the main product goal: - the docs explorer should produce or serve static web bundles - the same core feature set should work on GitHub Pages or similar static hosting Current local ripgrep search is still useful as a development aid, but it is not the right long-term foundation for product search. Direction Search should become a static-bundle feature with build-time index generation. Short rule: - build the search index ahead of time - ship the index with the docs bundle - run search entirely in the browser at runtime Contract Build time A build or generation step should produce a search index from the docs corpus. Inputs: - project manifest - docs index - document content Output: - static search index artifact stored next to the bundled docs metadata Candidate location: - app architecture/docs browser/search-index.<project .json or a future generated output path owned by the docs build flow Generated schema Initial generated schema should stay intentionally simple and deterministic. Suggested top-level shape: { \"version\": 1, \"projectId\": \"howl-docs\", \"generatedAt\": \"2026-04-02T12:00:00.000Z\", \"documents\": [ { \"path\": \"README.md\", \"title\": \"Howl Docs\", \"headings\": [ \"Structure\", \"Local Development\" ], \"text\": \"Normalized document text used for runtime matching.\", \"sections\": [ { \"id\": \"structure\", \"heading\": \"Structure\", \"text\": \"Section-level normalized text.\" } ] } ] } Notes: - version allows the runtime to reject incompatible artifacts cleanly - projectId ties the artifact to the selected project contract - documents are path-addressable and deterministic - sections provide a clean future seam for heading-aware ranking/snippets - text is a normalized search field, not presentation HTML Runtime The browser app should: - load the static search index for the selected project - run query/filter locally in the browser - render one search UX regardless of local-dev or hosted mode Search surface The intended product surface is a spotlight-style search widget, not a permanently inlined header input. Current direction: - a header icon button toggles the search widget - the widget owns the search input and results list - the same surface should work for both transitional local-dev search and the future static search runtime Reason: - better fit for a multi-project docs surface - clearer product focus than a cramped always-visible input - closer to the intended spotlight / command-palette interaction model Transitional local-dev behavior Static search is now the only runtime search path. Current rule: - if a project has a generated search index, the browser uses it - if a project does not have a generated search index, search is unavailable - do not reintroduce local ripgrep fallback into the browser runtime path Open Decisions Search unit Decide whether the index should be built from: - whole documents - headings/sections - line snippets Current likely best fit: - section-oriented records with stable source path and short preview text Reason: - better relevance than whole-document blobs - simpler than line-perfect positional indexing - aligns with docs navigation better than raw grep behavior Ranking Current direction has changed: - prefer recall-first matching over “smart” ranking - default ordering should be deterministic and simple, currently path-first - broad queries should not be suppressed aggressively just to improve ranking Near-term runtime rule: - match documents/sections by normalized query tokens - keep recall closer to rg expectations on the indexed corpus - default ordering should stay easy to reason about - use explicit field filtering before adding heavier implicit ranking If richer ordering is added later: - keep it optional or narrowly scoped - do not let it hide obviously valid matches Highlighting The current in-view search-hit behavior is a first-match approximation. A static search replacement should define: - what payload is returned for each hit - whether hits target a document, a heading anchor, or a text range - how the viewer should scroll/focus when opening a result Ownership Preferred ownership split: - generation/build step owns index creation - browser owns search UX and filter/match application - Python should not remain in the primary hosted-capable search path Search filtering The intended simplification path is closer to editor search than fuzzy finder ranking. Preferred direction: - keep the main search input recall-first - add explicit field filters when needed: - path - title - heading - body - default to searching across all fields unless narrowed This is easier to reason about and closer to user expectation for pasted literal text and path-like queries. Immediate Next Step Do not implement search replacement blindly. First: 1. decide where docs-bundle generation belongs 2. define the generated search-index schema 3. decide the runtime loading path for a selected project 4. preserve the spotlight widget contract while replacing the local ripgrep backend Initial implementation seam The first implementation step should be a generator that: - reads a project manifest - resolves its docs-index file - loads the referenced docs from the repo root - emits a deterministic search-index.<project .json artifact That generator is allowed to start with a simple full-text-oriented schema. Do not block on workers, chunking, or advanced ranking before the artifact and runtime contract exist.",
+      "sections": [
+        {
+          "id": "static-search-direction",
+          "heading": "Static Search Direction",
+          "text": "Status: - active architecture note - intended to replace local ripgrep search as the primary product path"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem",
+          "text": "The current search feature is centered on local ripgrep through howl docs.py. That is not aligned with the main product goal: - the docs explorer should produce or serve static web bundles - the same core feature set should work on GitHub Pages or similar static hosting Current local ripgrep search is still useful as a development aid, but it is not the right long-term foundation for product search."
+        },
+        {
+          "id": "direction",
+          "heading": "Direction",
+          "text": "Search should become a static-bundle feature with build-time index generation. Short rule: - build the search index ahead of time - ship the index with the docs bundle - run search entirely in the browser at runtime"
+        },
+        {
+          "id": "contract",
+          "heading": "Contract",
+          "text": ""
+        },
+        {
+          "id": "build-time",
+          "heading": "Build time",
+          "text": "A build or generation step should produce a search index from the docs corpus. Inputs: - project manifest - docs index - document content Output: - static search index artifact stored next to the bundled docs metadata Candidate location: - app architecture/docs browser/search-index.<project .json or a future generated output path owned by the docs build flow"
+        },
+        {
+          "id": "generated-schema",
+          "heading": "Generated schema",
+          "text": "Initial generated schema should stay intentionally simple and deterministic. Suggested top-level shape: { \"version\": 1, \"projectId\": \"howl-docs\", \"generatedAt\": \"2026-04-02T12:00:00.000Z\", \"documents\": [ { \"path\": \"README.md\", \"title\": \"Howl Docs\", \"headings\": [ \"Structure\", \"Local Development\" ], \"text\": \"Normalized document text used for runtime matching.\", \"sections\": [ { \"id\": \"structure\", \"heading\": \"Structure\", \"text\": \"Section-level normalized text.\" } ] } ] } Notes: - version allows the runtime to reject incompatible artifacts cleanly - projectId ties the artifact to the selected project contract - documents are path-addressable and deterministic - sections provide a clean future seam for heading-aware ranking/snippets - text is a normalized search field, not presentation HTML"
+        },
+        {
+          "id": "runtime",
+          "heading": "Runtime",
+          "text": "The browser app should: - load the static search index for the selected project - run query/filter locally in the browser - render one search UX regardless of local-dev or hosted mode"
+        },
+        {
+          "id": "search-surface",
+          "heading": "Search surface",
+          "text": "The intended product surface is a spotlight-style search widget, not a permanently inlined header input. Current direction: - a header icon button toggles the search widget - the widget owns the search input and results list - the same surface should work for both transitional local-dev search and the future static search runtime Reason: - better fit for a multi-project docs surface - clearer product focus than a cramped always-visible input - closer to the intended spotlight / command-palette interaction model"
+        },
+        {
+          "id": "transitional-local-dev-behavior",
+          "heading": "Transitional local-dev behavior",
+          "text": "Static search is now the only runtime search path. Current rule: - if a project has a generated search index, the browser uses it - if a project does not have a generated search index, search is unavailable - do not reintroduce local ripgrep fallback into the browser runtime path"
+        },
+        {
+          "id": "open-decisions",
+          "heading": "Open Decisions",
+          "text": ""
+        },
+        {
+          "id": "search-unit",
+          "heading": "Search unit",
+          "text": "Decide whether the index should be built from: - whole documents - headings/sections - line snippets Current likely best fit: - section-oriented records with stable source path and short preview text Reason: - better relevance than whole-document blobs - simpler than line-perfect positional indexing - aligns with docs navigation better than raw grep behavior"
+        },
+        {
+          "id": "ranking",
+          "heading": "Ranking",
+          "text": "Current direction has changed: - prefer recall-first matching over “smart” ranking - default ordering should be deterministic and simple, currently path-first - broad queries should not be suppressed aggressively just to improve ranking Near-term runtime rule: - match documents/sections by normalized query tokens - keep recall closer to rg expectations on the indexed corpus - default ordering should stay easy to reason about - use explicit field filtering before adding heavier implicit ranking If richer ordering is added later: - keep it optional or narrowly scoped - do not let it hide obviously valid matches"
+        },
+        {
+          "id": "highlighting",
+          "heading": "Highlighting",
+          "text": "The current in-view search-hit behavior is a first-match approximation. A static search replacement should define: - what payload is returned for each hit - whether hits target a document, a heading anchor, or a text range - how the viewer should scroll/focus when opening a result"
+        },
+        {
+          "id": "ownership",
+          "heading": "Ownership",
+          "text": "Preferred ownership split: - generation/build step owns index creation - browser owns search UX and filter/match application - Python should not remain in the primary hosted-capable search path"
+        },
+        {
+          "id": "search-filtering",
+          "heading": "Search filtering",
+          "text": "The intended simplification path is closer to editor search than fuzzy finder ranking. Preferred direction: - keep the main search input recall-first - add explicit field filters when needed: - path - title - heading - body - default to searching across all fields unless narrowed This is easier to reason about and closer to user expectation for pasted literal text and path-like queries."
+        },
+        {
+          "id": "immediate-next-step",
+          "heading": "Immediate Next Step",
+          "text": "Do not implement search replacement blindly. First: 1. decide where docs-bundle generation belongs 2. define the generated search-index schema 3. decide the runtime loading path for a selected project 4. preserve the spotlight widget contract while replacing the local ripgrep backend"
+        },
+        {
+          "id": "initial-implementation-seam",
+          "heading": "Initial implementation seam",
+          "text": "The first implementation step should be a generator that: - reads a project manifest - resolves its docs-index file - loads the referenced docs from the repo root - emits a deterministic search-index.<project .json artifact That generator is allowed to start with a simple full-text-oriented schema. Do not block on workers, chunking, or advanced ranking before the artifact and runtime contract exist."
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/ui/README.md",
+      "title": "Howl Docs Design",
+      "headings": [
+        "Howl Docs Design"
+      ],
+      "text": "Howl Docs Design This folder is the explorer's small in-repo design authority. Use it the same way Zide uses app architecture/: - current widget/system design lives here - active implementation follow-up lives in ../../docs/todo/README.md - high-level contributor entrypoints stay in: - ../../README.md - ../README.md Current design docs: - TREE WIDGET.md - tree geometry - active-path highlighting - connector ownership Rules: - keep this folder focused on current design, not progress logs - if a UI seam becomes non-trivial enough to need diagrams, contracts, or invariants, give it a focused design doc here - move implementation status and unfinished steps back into ../../docs/todo/README.md",
+      "sections": [
+        {
+          "id": "howl-docs-design",
+          "heading": "Howl Docs Design",
+          "text": "This folder is the explorer's small in-repo design authority. Use it the same way Zide uses app architecture/: - current widget/system design lives here - active implementation follow-up lives in ../../docs/todo/README.md - high-level contributor entrypoints stay in: - ../../README.md - ../README.md Current design docs: - TREE WIDGET.md - tree geometry - active-path highlighting - connector ownership Rules: - keep this folder focused on current design, not progress logs - if a UI seam becomes non-trivial enough to need diagrams, contracts, or invariants, give it a focused design doc here - move implementation status and unfinished steps back into ../../docs/todo/README.md"
+        }
+      ]
+    },
+    {
+      "path": "app_architecture/ui/TREE_WIDGET.md",
+      "title": "Tree Widget Design",
+      "headings": [
+        "Tree Widget Design",
+        "Goal",
+        "Current Direction",
+        "Desired Geometry Model",
+        "Ownership",
+        "Invariants",
+        "Follow-up"
+      ],
+      "text": "Tree Widget Design Goal Make the docs tree read like a deliberate hierarchy widget rather than a loose list of folders with decorative rails. The target visual reference is closer to a terminal/process tree: - each row owns its own connector geometry - vertical rails read as continuity between rows - horizontal elbows read as explicit joins into child rows - active path highlighting follows the actual branch path instead of painting whole containers Current Direction The current implementation is in transition. What is already true: - the tree is rendered from explicit state - folders/files are rendered from a tree model, not from ad hoc DOM mutation - active path and expanded paths are explicit state - connector and hover colors are token-driven through theme.css - the tree has been simplified back toward a conventional nested navigation panel instead of pursuing bespoke connector geometry too early What is still weak: - the active branch/focus path still needs a calmer final visual treatment - the current panel is intentionally simpler, but not yet polished - if we revisit richer connector geometry later, it should be justified by real UX value rather than customness Desired Geometry Model The current preferred model is: 1. folders and files read like a simple nested navigation list 2. indentation and one branch rail are enough to explain hierarchy 3. active state should be obvious without decorative geometry 4. complexity should stay low until a stronger UX need is proven That means the design should avoid: - pseudo-graph drawing that adds more code than clarity - multiple connector grammars for open vs closed state - container-owned hacks that are hard to reason about - custom geometry pursued for novelty rather than usability Ownership Design ownership is split like this: - tree model.ts - structural tree model from document paths - tree markup.ts - row semantics and row/path classes - tree.ts - DOM mount and toggle wiring - tree.css - row geometry and connector visuals - theme.css - connector and active-path tokens Invariants - folders and files should participate in one connector system - active-path highlighting should be row-local, not container-guessed - inactive branches should stay readable but subdued - tree visuals should remain token-driven and theme-safe - markup should carry semantic classes/data for path state; CSS should not infer active-path structure indirectly Follow-up The recent connector-heavy exploration has been deliberately simplified. Remaining follow-up: - refine the active/focus treatment - keep the nested panel intuitive on desktop and mobile - only reintroduce more complex tree geometry if a simpler panel proves insufficient Track that work in ../../docs/todo/README.md.",
+      "sections": [
+        {
+          "id": "tree-widget-design",
+          "heading": "Tree Widget Design",
+          "text": ""
+        },
+        {
+          "id": "goal",
+          "heading": "Goal",
+          "text": "Make the docs tree read like a deliberate hierarchy widget rather than a loose list of folders with decorative rails. The target visual reference is closer to a terminal/process tree: - each row owns its own connector geometry - vertical rails read as continuity between rows - horizontal elbows read as explicit joins into child rows - active path highlighting follows the actual branch path instead of painting whole containers"
+        },
+        {
+          "id": "current-direction",
+          "heading": "Current Direction",
+          "text": "The current implementation is in transition. What is already true: - the tree is rendered from explicit state - folders/files are rendered from a tree model, not from ad hoc DOM mutation - active path and expanded paths are explicit state - connector and hover colors are token-driven through theme.css - the tree has been simplified back toward a conventional nested navigation panel instead of pursuing bespoke connector geometry too early What is still weak: - the active branch/focus path still needs a calmer final visual treatment - the current panel is intentionally simpler, but not yet polished - if we revisit richer connector geometry later, it should be justified by real UX value rather than customness"
+        },
+        {
+          "id": "desired-geometry-model",
+          "heading": "Desired Geometry Model",
+          "text": "The current preferred model is: 1. folders and files read like a simple nested navigation list 2. indentation and one branch rail are enough to explain hierarchy 3. active state should be obvious without decorative geometry 4. complexity should stay low until a stronger UX need is proven That means the design should avoid: - pseudo-graph drawing that adds more code than clarity - multiple connector grammars for open vs closed state - container-owned hacks that are hard to reason about - custom geometry pursued for novelty rather than usability"
+        },
+        {
+          "id": "ownership",
+          "heading": "Ownership",
+          "text": "Design ownership is split like this: - tree model.ts - structural tree model from document paths - tree markup.ts - row semantics and row/path classes - tree.ts - DOM mount and toggle wiring - tree.css - row geometry and connector visuals - theme.css - connector and active-path tokens"
+        },
+        {
+          "id": "invariants",
+          "heading": "Invariants",
+          "text": "- folders and files should participate in one connector system - active-path highlighting should be row-local, not container-guessed - inactive branches should stay readable but subdued - tree visuals should remain token-driven and theme-safe - markup should carry semantic classes/data for path state; CSS should not infer active-path structure indirectly"
+        },
+        {
+          "id": "follow-up",
+          "heading": "Follow-up",
+          "text": "The recent connector-heavy exploration has been deliberately simplified. Remaining follow-up: - refine the active/focus treatment - keep the nested panel intuitive on desktop and mobile - only reintroduce more complex tree geometry if a simpler panel proves insufficient Track that work in ../../docs/todo/README.md."
+        }
+      ]
+    }
+  ]
+}

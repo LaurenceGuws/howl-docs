@@ -1,0 +1,27 @@
+{
+  "name": "howl-docs",
+  "version": "0.1.0",
+  "description": "Framework-free browser docs explorer for Howl projects.",
+  "private": false,
+  "type": "commonjs",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc -p tsconfig.json",
+    "build:search-index": "node scripts/generate_search_index.js ./app_architecture/docs_browser/project.howl-docs.json",
+    "test": "npm run build && npm run build:search-index && node scripts/run_tests.js",
+    "test:conventions": "node scripts/run_tests.js conventions",
+    "test:runtime": "npm run build && npm run build:search-index && node scripts/run_tests.js runtime"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/howl-editor/howl-docs.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/howl-editor/howl-docs/issues"
+  },
+  "homepage": "https://github.com/howl-editor/howl-docs#readme",
+  "devDependencies": {
+    "jsdom": "^29.0.1",
+    "typescript": "^5.9.3"
+  }
+}

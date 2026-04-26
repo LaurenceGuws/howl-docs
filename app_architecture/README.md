@@ -22,7 +22,7 @@ ids, not raw config mount paths.
   - shared icon sizing normalization
 - `ts/shell/app_shell.ts`
   - shell branding/title/source-link wiring
-  - shell theme/bootstrap initialization
+  - shell theme/startup initialization
 - `ts/app.ts`
   - application composition root
   - top-level runtime sequencing only
@@ -34,7 +34,7 @@ ids, not raw config mount paths.
 - `styles/base.css`
   - stylesheet manifest/import root
 - `app_architecture/ui/README.md`
-  - focused design authority for explorer widget/system seams
+  - focused design authority for explorer widget/system boundaries
 - `app_architecture/ui/TREE_WIDGET.md`
   - current tree connector/highlight direction
 - `styles/theme.css`
@@ -63,13 +63,13 @@ ids, not raw config mount paths.
 - `ts/state.ts`
   - app-state defaults and persistence helpers
 - `ts/shared/types.ts`
-  - shared type contracts for state/config/shell/runtime seams
+  - shared type contracts for state/config/shell/runtime boundaries
 - `ts/layout.ts`
   - sidebar width/collapse behavior
 - `ts/options_menu.ts`
   - options popover behavior
 - `ts/docs/doc_controller.ts`
-  - small composition seam for docs routing + render lifecycle
+  - small composition boundary for docs routing + render lifecycle
   - document tree refresh
   - theme-triggered Mermaid rerender delegation
 - `ts/docs/doc_routing.ts`
@@ -106,7 +106,7 @@ ids, not raw config mount paths.
 - `ts/shared/utils.ts`
   - small shared helpers
 - `ts/shared/vendor_types.ts`
-  - typed browser-vendor seams
+  - typed browser-vendor boundaries
 - `ts/shared/external.d.ts`
   - typed ESM/CDN module declarations
 - `app_architecture/docs_browser/project.howl-docs.json`
@@ -192,10 +192,10 @@ where DOM structure or CSS-specific assumptions leak across module boundaries.
 
 Theme is now part of explicit app state rather than being owned only through
 DOM reads and local storage helpers. Document chrome, tree state, and viewer
-body state now also flow through explicit controller/state seams instead of
+body state now also flow through explicit controller/state boundaries instead of
 being mutated ad hoc inside the fetch/render path.
 
-Recommended pattern:
+Recommended rule:
 
 - state mutations happen through named functions
 - DOM updates are triggered from those state transitions
@@ -219,14 +219,14 @@ but the core move to real TypeScript has now happened.
 Reason:
 
 - current risk is muddled ownership and mixed concerns, not lack of type syntax
-- the value of `.ts` is now in keeping the new module seams explicit and harder
+- the value of `.ts` is now in keeping the new module boundaries explicit and harder
   to erode
 
 Short rule:
 
 - architecture first
 - types second
-- keep the type layer thin and aligned to stable seams
+- keep the type layer thin and aligned to stable boundaries
 
 ## Reuse Direction
 
@@ -299,7 +299,7 @@ Token usage rule:
 
 Keep raw DOM ownership narrow.
 
-Allowed direct DOM ownership seams:
+Allowed direct DOM ownership boundaries:
 
 - `ts/shell/shell_dom.ts`
   - required element lookup only
@@ -339,7 +339,7 @@ Current likely next candidates:
 - `ts/tree/`
   - keep model, markup, and DOM orchestration separate as the tree evolves
 - `ts/shell/`
-  - keep DOM lookup, icon loading, and bootstrap concerns separate
+  - keep DOM lookup, icon loading, and startup concerns separate
 
 ## Non-goals
 

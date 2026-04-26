@@ -14,7 +14,7 @@ Current entrypoints:
 
 - `howl_docs.py`: lightweight local HTTP launcher
 - `index.html`: HTML shell
-- `design/`: focused explorer design docs for non-trivial widget/system seams
+- `design/`: focused explorer design docs for non-trivial widget/system boundaries
 - `styles/base.css`: stylesheet import root
 - `app_architecture/`: architecture and subsystem design docs
 - `ts/`: TypeScript source modules
@@ -22,7 +22,7 @@ Current entrypoints:
 - `search/`: spotlight-style static search
   - `tree/`: tree rendering and tree state
   - `theme/`: theme/runtime palette wiring
-  - `shell/`: app-shell bootstrap, DOM lookup, and icon wiring
+  - `shell/`: app-shell startup, DOM lookup, and icon wiring
 - `shared/`: shared types/helpers/vendor declarations
 - `build/js/`: generated browser ESM output
 - `app_architecture/docs_browser/project.howl-docs.json`: local project manifest
@@ -118,7 +118,7 @@ Notes:
   GitHub serves the static explorer directly.
 - For design-heavy internal cleanup, use
   [app_architecture/ui/README.md](app_architecture/ui/README.md) for focused
-  documentation of widget and system seams.
+  documentation of widget and system boundaries.
 - Current repo workflow docs live under [docs/INDEX.md](docs/INDEX.md).
 - The sidebar input remains a tree/path filter only.
 - Search is a separate spotlight-style full-text surface backed by generated

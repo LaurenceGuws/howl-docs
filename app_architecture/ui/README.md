@@ -20,7 +20,7 @@ Current design docs:
 Rules:
 
 - keep this folder focused on current design, not progress logs
-- if a UI seam becomes non-trivial enough to need diagrams, contracts, or
+- if a UI boundary becomes non-trivial enough to need diagrams, contracts, or
   invariants, give it a focused design doc here
 - move implementation status and unfinished steps back into
   [../../docs/todo/README.md](../../docs/todo/README.md)

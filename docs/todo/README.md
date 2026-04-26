@@ -51,7 +51,7 @@
 
 - [~] Introduce a dedicated app-state module instead of storing behavior across
       `main.js`, DOM attributes, and `localStorage` calls.
-      - `ts/state.ts` now owns the first persistence/default seams.
+      - `ts/state.ts` now owns the first persistence/default boundaries.
       - Remaining work: options/search/current-doc state transitions still need
         a cleaner shared model and less direct DOM orchestration.
 - [ ] Define a clear state shape for:
@@ -64,16 +64,16 @@
       - document header/load state
       - tree filter/active state
       - viewer body render state
-- [ ] Centralize persistence reads/writes behind a small state/persistence seam.
+- [ ] Centralize persistence reads/writes behind a small state/persistence boundary.
 - [ ] Keep typing work sequenced after the module/state split.
       - First stabilize module boundaries and state ownership.
-      - Then keep TypeScript aligned to those stable seams.
+      - Then keep TypeScript aligned to those stable boundaries.
       - Avoid using types to justify muddled ownership.
 
 ### Module refactor
 
 - [~] Split the old `main.js` monolith into concern-owned modules.
-      - app bootstrap
+      - app startup
       - layout/sidebar controls
       - options/menu controls
       - state/config wiring
@@ -94,7 +94,7 @@
         - keep `ts/docs/doc_controller.ts` as assembly only
         - continue shrinking cross-module DOM assumptions
 - [ ] Standardize markup injection ownership.
-      - The repo currently uses several HTML/SVG injection patterns.
+      - The repo currently uses several HTML/SVG injection rules.
       - Define when string markup, template parsing, and direct SVG injection
         are acceptable instead of letting each subsystem invent its own rule.
 - [ ] Standardize event-listener ownership.
@@ -102,7 +102,7 @@
       - Global listeners should remain controller-owned.
 - [x] Rename the source tree from `js/` to `ts/` and group modules by concern.
       - `docs/`, `tree/`, `theme/`, `shell/`, and `shared/` now own the main
-        source seams.
+        source boundaries.
 - [x] Split tree and shell internals so concern folders are structural, not
       cosmetic.
       - `ts/tree/` now separates model, markup, state, and DOM orchestration.
@@ -126,7 +126,7 @@
 - [x] Split `styles/base.css` by concern.
       - `base.css` is now the import root.
       - `theme.css`, `shell.css`, `tree.css`, `controls.css`,
-        `viewer.css`, and `responsive.css` now own the main style seams.
+        `viewer.css`, and `responsive.css` now own the main style boundaries.
 
 ### Python vs JS ownership
 
